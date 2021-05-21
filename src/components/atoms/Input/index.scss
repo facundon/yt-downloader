@@ -1,0 +1,44 @@
+@use "../../../styles/functions" as f;
+@use "../../../styles/mixins" as m;
+
+.input {
+   &__wrapper {
+      display: flex;
+      width: 100%;
+      height: 48px;
+      input {
+         @include m.bottom-border(2px solid transparent);
+         font: inherit;
+         padding: 0.5em;
+         width: inherit;
+         font-size: f.getFontProp("size", "secondary");
+         color: f.getColor("white", 200);
+         outline: none;
+         background-color: transparent;
+         border-radius: 5px 5px 0px 0;
+         transition: all cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.2s;
+         &:hover,
+         &:focus {
+            border-image-source: linear-gradient(
+               to left,
+               f.getColor("orange", 400),
+               f.getColor("pink", 200)
+            );
+            border-width: 2px;
+         }
+         &:focus-visible {
+            transition: all cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.2s;
+            border-width: 4px;
+            &::placeholder {
+               transform: translatex(110%);
+               transition: transform cubic-bezier(0.35, 0.55, 0.95, 0.035) 1s;
+            }
+         }
+         &::placeholder {
+            color: f.getColor("white", 200);
+            opacity: 0.8;
+            font-weight: 200;
+         }
+      }
+   }
+}

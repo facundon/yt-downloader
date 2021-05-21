@@ -5,7 +5,7 @@
    @return map-get($property, $val);
 }
 
-@function getColor($type, $val) {
+@function getColor($type, $val, $opacity: 1) {
    $type: map-get(v.$color, $type);
-   @return map-get($type, $val);
+   @return rgba(map-get($type, $val), $opacity);
 }

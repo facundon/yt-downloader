@@ -9,6 +9,13 @@ body {
       "Helvetica Neue", sans-serif;
    -webkit-font-smoothing: antialiased;
    -moz-osx-font-smoothing: grayscale;
-   color: f.getColor("primary", 400);
-   background-color: f.getColor("black", 800);
+   color: f.getColor("white", 200);
+   overflow-x: hidden;
+   background: f.getColor("background", 800);
+   background: radial-gradient(
+      circle at 50% -50px,
+      f.getColor("background", 400),
+      f.getColor("background", 800)
+   );
+   background-attachment: fixed;
 }

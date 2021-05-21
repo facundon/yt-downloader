@@ -1,0 +1,85 @@
+@use "../../../styles/functions" as f;
+
+.btn-wrapper {
+   display: block;
+   cursor: pointer;
+   width: 50.2px;
+   height: 48px;
+   border-radius: 20%;
+   border-bottom-left-radius: initial;
+   background-size: 130% auto;
+   box-shadow: 0px 10px 20px f.getColor("pink", 200, 0.4);
+   transition: transform cubic-bezier(0.075, 0.82, 0.165, 1) 0.4s,
+      box-shadow ease-in-out 0.1s;
+
+   button {
+      background-color: transparent;
+      padding: 0;
+      margin: 0;
+      border: none;
+      height: 100%;
+      width: 100%;
+      outline: none;
+      &:focus-visible {
+         outline: none;
+      }
+   }
+
+   &:hover,
+   &:focus,
+   &:focus-visible {
+      box-shadow: 0 7px 10px f.getColor("pink", 400, 0.7);
+      text-decoration: none;
+      outline: none;
+      background-position: right;
+   }
+   &:active {
+      transform: translateY(4px);
+      box-shadow: 0 4px 6px f.getColor("pink", 400, 0.7);
+   }
+
+   span {
+      color: f.getColor("white", 200);
+      padding: 0;
+      margin: 0;
+   }
+}
+
+.btn-wrapper.primary {
+   background-image: linear-gradient(
+      255deg,
+      f.getColor("pink", 200),
+      f.getColor("orange", 200)
+   );
+}
+
+.btn-wrapper.secondary {
+   background-image: linear-gradient(
+      205deg,
+      f.getColor("violet", 400),
+      f.getColor("blue", 200)
+   );
+}
+
+.btn-wrapper.subtle {
+   --angle: 0deg;
+   @property --angle {
+      syntax: "<angle>";
+      initial-value: 0deg;
+      inherits: false;
+   }
+   background-color: transparent;
+   border: 5px solid;
+   border-image: linear-gradient(
+         var(--angle),
+         f.getColor("violet", 400),
+         f.getColor("pink", 400)
+      )
+      1;
+   animation: 10s rotate linear infinite;
+   @keyframes rotate {
+      to {
+         --angle: 360deg;
+      }
+   }
+}

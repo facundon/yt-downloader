@@ -9,13 +9,16 @@
 }
 
 p {
+   margin: 0;
    font-size: f.getFontProp("size", "secondary");
 }
 
 h1 {
+   margin: 0;
    font-size: f.getFontProp("size", "title");
 }
 
 h2 {
+   margin: 0;
    font-size: f.getFontProp("size", "primary");
 }
