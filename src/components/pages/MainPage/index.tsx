@@ -1,8 +1,14 @@
 import MainFrame from "../../templates/MainFrame"
 import { Title } from "../../atoms"
 import { SearchBar, VideoCard } from "../../molecules"
-import axios, { AxiosRequestConfig, AxiosResponse } from "axios"
-import { YouTubeItem, YouTubeResponseData } from "./types"
+import axios, { AxiosResponse } from "axios"
+import {
+   YouTubeSearchItem,
+   YouTubeSearchResponse,
+   YouTubeVideo,
+   YouTubeVideoItem,
+   YouTubeVideoResponse,
+} from "./types"
 import { useState } from "react"
 
 const checkEnvVariables = () => {
@@ -15,53 +21,89 @@ const checkEnvVariables = () => {
       )
    return true
 }
-const MainPage = () => {
-   const [searchItems, setSearchItems] = useState<YouTubeItem[]>([])
 
-   const handleSearch = (val: string) => {
+const getVideosId = (items: YouTubeSearchItem[]) => {
+   let result = ""
+   items.forEach((item) => (result += item.id.videoId + ","))
+   return result
+}
+
+const appendVideoDuration = (
+   searchItems: YouTubeSearchItem[],
+   videoItems: YouTubeVideoItem[]
+) => {
+   const nextSearchItems: YouTubeVideo[] = Object.assign([], searchItems)
+   searchItems.forEach((_, index) => {
+      const videoDuration = videoItems[index].contentDetails.duration
+         .replace("PT", "")
+         .replace("H", ":")
+         .replace("M", ":")
+         .replace("S", "")
+      nextSearchItems[index]["duration"] = videoDuration
+   })
+   return nextSearchItems
+}
+
+const MainPage = () => {
+   const [searchItems, setSearchItems] = useState<YouTubeVideo[]>([])
+   const [loading, setLoading] = useState(false)
+
+   const handleSearch = async (val: string) => {
+      setLoading(true)
       if (val && checkEnvVariables()) {
-         const axiosCfg: AxiosRequestConfig = {
+         const youtubeApi = axios.create({
             params: {
-               part: "snippet",
-               q: val,
                type: "video",
                maxResults: 9,
                eventType: "completed",
                key: process.env.REACT_APP_YOUTUBE_API_KEY,
             },
+            baseURL: process.env.REACT_APP_YOUTUBE_API!,
+         })
+         try {
+            const searchResponse: AxiosResponse<YouTubeSearchResponse> =
+               await youtubeApi.get("/search", {
+                  params: { q: val, part: "snippet" },
+               })
+            const videosId = getVideosId(searchResponse.data.items)
+            const videosResponse: AxiosResponse<YouTubeVideoResponse> =
+               await youtubeApi.get("/videos", {
+                  params: { part: "contentDetails", id: videosId },
+               })
+            setSearchItems(
+               appendVideoDuration(
+                  searchResponse.data.items,
+                  videosResponse.data.items
+               )
+            )
+         } catch (error) {
+            if (error.response) {
+               // The request was made and the server responded with a status code
+               // that falls out of the range of 2xx
+               console.error(error.response.data)
+               console.error(error.response.status)
+            } else if (error.request) {
+               // The request was made but no response was received
+               console.error(error.request)
+            } else {
+               // Something happened in setting up the request that triggered an Error
+               console.error("Error", error.message)
+            }
+            console.error(error.config)
          }
-         axios
-            .get(process.env.REACT_APP_YOUTUBE_API!, axiosCfg)
-            .then((val: AxiosResponse<YouTubeResponseData>) => {
-               setSearchItems(val.data.items)
-               // TODO: show card set with videos
-               console.log(val.data.items)
-            })
-            .catch((error) => {
-               if (error.response) {
-                  // The request was made and the server responded with a status code
-                  // that falls out of the range of 2xx
-                  console.error(error.response.data)
-                  console.error(error.response.status)
-               } else if (error.request) {
-                  // The request was made but no response was received
-                  console.error(error.request)
-               } else {
-                  // Something happened in setting up the request that triggered an Error
-                  console.error("Error", error.message)
-               }
-               console.error(error.config)
-            })
       }
+      setLoading(false)
    }
    return (
       <MainFrame
          title={<Title text="YouTube Downloader" />}
-         searchBar={<SearchBar handleSearch={handleSearch} />}
+         searchBar={<SearchBar handleSearch={handleSearch} loading={loading} />}
          searchResults={searchItems?.map((item) => (
             <VideoCard
+               key={item.id.videoId}
                thumbnail={item.snippet.thumbnails.medium}
                title={item.snippet.title}
+               duration={item.duration}
             />
          ))}
       />

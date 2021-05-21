@@ -4,8 +4,10 @@ import "./index.scss"
 
 const SearchBar = ({
    handleSearch,
+   loading = false,
 }: {
    handleSearch: (value: string) => void
+   loading?: boolean
 }) => {
    const [value, setValue] = useState("")
    return (
@@ -17,6 +19,7 @@ const SearchBar = ({
             aria-label="Buscar videos"
             required
             onKeyPress={(e) => e.key === "Enter" && handleSearch(value)}
+            loading={loading}
          />
          <IconButton
             icon="search"

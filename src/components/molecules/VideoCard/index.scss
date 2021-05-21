@@ -9,6 +9,7 @@
 }
 
 .thumbnail {
+   position: relative;
    background-color: f.getColor("black", 600);
    p {
       margin: 0.5em;
@@ -43,4 +44,13 @@
 .thumbnail:hover + .options {
    visibility: visible;
    opacity: 1;
+}
+
+.duration {
+   background-color: f.getColor("black", 600);
+   border-radius: 1em 1em 0 0;
+   padding: 0.5em;
+   position: absolute;
+   bottom: 2em;
+   right: -0.5em;
 }

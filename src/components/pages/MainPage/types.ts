@@ -1,10 +1,10 @@
-type YouTubeThumbnailsData = {
+type YouTubeThumbnails = {
    url: string
    width: number
    height: number
 }
 
-export type YouTubeItem = {
+export type YouTubeSearchItem = {
    kind: "youtube#searchResult"
    etag: string
    id: {
@@ -19,16 +19,31 @@ export type YouTubeItem = {
       title: string
       description: string
       thumbnails: {
-         default: YouTubeThumbnailsData
-         medium: YouTubeThumbnailsData
-         high: YouTubeThumbnailsData
+         default: YouTubeThumbnails
+         medium: YouTubeThumbnails
+         high: YouTubeThumbnails
       }
    }
 }
 
-export type YouTubeResponseData = {
+export type YouTubeVideoItem = {
+   contentDetails: {
+      caption: string
+      contentRating: {}
+      definition: string
+      dimension: string
+      duration: string
+      licensedContent: boolean
+      projection: string
+   }
    etag: string
-   items: YouTubeItem[]
+   id: string
+   kind: "youtube#video"
+}
+
+export type YouTubeSearchResponse = {
+   etag: string
+   items: YouTubeSearchItem[]
    kind: "youtube#searchListResponse"
    nexPageToken: string
    regionCode: string
@@ -37,3 +52,15 @@ export type YouTubeResponseData = {
       totalResults: number
    }
 }
+
+export type YouTubeVideoResponse = {
+   etag: string
+   items: YouTubeVideoItem[]
+   kind: "youtube#videoListResponse"
+   pageInfo: {
+      resultsPerPage: number
+      totalResults: number
+   }
+}
+
+export type YouTubeVideo = YouTubeSearchItem & { duration: string }

@@ -3,19 +3,19 @@
 
 .input {
    &__wrapper {
+      position: relative;
       display: flex;
       width: 100%;
       height: 48px;
       input {
          @include m.bottom-border(2px solid transparent);
-         font: inherit;
-         padding: 0.5em;
-         width: inherit;
-         font-size: f.getFontProp("size", "primary");
-         color: f.getColor("white", 200);
          outline: none;
          background-color: transparent;
-         border-radius: 5px 5px 0px 0;
+         font: inherit;
+         font-size: f.getFontProp("size", "primary");
+         color: f.getColor("white", 200);
+         width: inherit;
+         padding: 0.5em;
          transition: all cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.2s;
          &:hover,
          &:focus {
@@ -27,7 +27,6 @@
             border-width: 2px;
          }
          &:focus-visible {
-            transition: all cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.2s;
             border-width: 4px;
             &::placeholder {
                transform: translatex(110%);
@@ -39,6 +38,38 @@
             opacity: 0.8;
             font-weight: 200;
          }
+      }
+      &::after {
+         display: none;
+         content: "";
+         position: absolute;
+         bottom: 0;
+         left: 0;
+         width: 101%;
+         height: 4px;
+         background: linear-gradient(
+            to left,
+            f.getColor("orange", 200) 48%,
+            f.getColor("white", 200) 50%,
+            f.getColor("white", 200) 52%,
+            f.getColor("pink", 200) 54%
+         );
+         background-size: 200%;
+         animation: flow 1.3s linear infinite;
+      }
+      &.loading::after {
+         display: block;
+      }
+   }
+   @keyframes flow {
+      0% {
+         background-position: 0%;
+      }
+      50% {
+         background-position: 100%;
+      }
+      100% {
+         background-position: 0%;
       }
    }
 }

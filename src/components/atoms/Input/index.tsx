@@ -1,11 +1,17 @@
 import { InputHTMLAttributes } from "react"
 import "./index.scss"
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {}
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+   loading?: boolean
+}
 
-const Input: React.FC<InputProps> = ({ onChange, ...props }) => {
+const Input: React.FC<InputProps> = ({
+   onChange,
+   loading = false,
+   ...props
+}) => {
    return (
-      <div className="input__wrapper">
+      <div className={`input__wrapper ${loading && "loading"}`}>
          <input onChange={(e) => onChange && onChange(e)} {...props} />
       </div>
    )
