@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Input, IconButton } from "../atoms"
+import { Input, IconButton } from "../../atoms"
 import "./index.scss"
 
 const SearchBar = ({
