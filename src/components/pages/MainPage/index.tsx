@@ -1,8 +1,9 @@
 import MainFrame from "../../templates/MainFrame"
 import { Title } from "../../atoms"
-import { SearchBar } from "../../molecules"
+import { SearchBar, VideoCard } from "../../molecules"
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios"
-import { YouTubeResponseData } from "./types"
+import { YouTubeItem, YouTubeResponseData } from "./types"
+import { useState } from "react"
 
 const checkEnvVariables = () => {
    if (
@@ -15,6 +16,8 @@ const checkEnvVariables = () => {
    return true
 }
 const MainPage = () => {
+   const [searchItems, setSearchItems] = useState<YouTubeItem[]>([])
+
    const handleSearch = (val: string) => {
       if (val && checkEnvVariables()) {
          const axiosCfg: AxiosRequestConfig = {
@@ -22,7 +25,7 @@ const MainPage = () => {
                part: "snippet",
                q: val,
                type: "video",
-               maxResults: 10,
+               maxResults: 9,
                eventType: "completed",
                key: process.env.REACT_APP_YOUTUBE_API_KEY,
             },
@@ -30,6 +33,7 @@ const MainPage = () => {
          axios
             .get(process.env.REACT_APP_YOUTUBE_API!, axiosCfg)
             .then((val: AxiosResponse<YouTubeResponseData>) => {
+               setSearchItems(val.data.items)
                // TODO: show card set with videos
                console.log(val.data.items)
             })
@@ -54,6 +58,12 @@ const MainPage = () => {
       <MainFrame
          title={<Title text="YouTube Downloader" />}
          searchBar={<SearchBar handleSearch={handleSearch} />}
+         searchResults={searchItems?.map((item) => (
+            <VideoCard
+               thumbnail={item.snippet.thumbnails.medium}
+               title={item.snippet.title}
+            />
+         ))}
       />
    )
 }

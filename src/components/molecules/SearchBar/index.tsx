@@ -14,7 +14,6 @@ const SearchBar = ({
             placeholder="Buscar"
             onChange={(e) => setValue(e.target.value)}
             type="search"
-            name="q"
             aria-label="Buscar videos"
             required
             onKeyPress={(e) => e.key === "Enter" && handleSearch(value)}

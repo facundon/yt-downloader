@@ -51,8 +51,8 @@ $color: (
 
 $font: (
    "size": (
-      pimary: 23px,
-      secondary: 18px,
+      primary: 25px,
+      secondary: 16px,
       title: 40px,
    ),
    "weight": (
@@ -61,3 +61,5 @@ $font: (
       title: 600,
    ),
 );
+
+$card-border-radius: 0.8rem;

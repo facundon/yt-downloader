@@ -1,0 +1,46 @@
+@use "../../../styles/functions" as f;
+@use "../../../styles/variables" as *;
+
+.card-wrapper {
+   display: inline-flex;
+   margin: 0.5em;
+   height: auto;
+   width: auto;
+}
+
+.thumbnail {
+   background-color: f.getColor("black", 600);
+   p {
+      margin: 0.5em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 300px;
+   }
+}
+
+.options {
+   display: flex;
+   flex-direction: column;
+   justify-content: space-around;
+   align-items: center;
+   width: 24px;
+   padding: 0 1.5em;
+   background-image: linear-gradient(
+      to bottom,
+      transparent,
+      f.getColor("black", 600)
+   );
+   visibility: hidden;
+   opacity: 0;
+   transition: opacity 0.3s cubic-bezier(0.55, 0.085, 0.68, 0.53);
+   &:hover {
+      opacity: 1;
+      visibility: visible;
+   }
+}
+
+.thumbnail:hover + .options {
+   visibility: visible;
+   opacity: 1;
+}

@@ -21,7 +21,11 @@ const IconButton = ({
       <div
          className={`btn-wrapper ${appareance}`}
          tabIndex={0}
-         style={{ borderRadius: circle ? "50%" : "" }}
+         style={{
+            borderRadius: circle ? "50%" : "",
+            width: size === "sm" ? "35px" : "50px",
+            height: size === "sm" ? "35px" : "48px",
+         }}
       >
          <button {...props}>
             <span
