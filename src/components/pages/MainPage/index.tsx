@@ -1,7 +1,10 @@
 import MainFrame from "../../templates/MainFrame"
+import { useState } from "react"
 import { Title } from "../../atoms"
 import { SearchBar, VideoCard } from "../../molecules"
 import axios, { AxiosResponse } from "axios"
+import { convertYouTubeDuration } from "duration-iso-8601"
+
 import {
    YouTubeSearchItem,
    YouTubeSearchResponse,
@@ -9,7 +12,6 @@ import {
    YouTubeVideoItem,
    YouTubeVideoResponse,
 } from "./types"
-import { useState } from "react"
 
 const checkEnvVariables = () => {
    if (
@@ -24,7 +26,7 @@ const checkEnvVariables = () => {
 
 const getVideosId = (items: YouTubeSearchItem[]) => {
    let result = ""
-   items.forEach((item) => (result += item.id.videoId + ","))
+   items.forEach(item => (result += item.id.videoId + ","))
    return result
 }
 
@@ -35,11 +37,7 @@ const appendVideoDuration = (
    const nextSearchItems: YouTubeVideo[] = Object.assign([], searchItems)
    searchItems.forEach((_, index) => {
       const videoDuration = videoItems[index].contentDetails.duration
-         .replace("PT", "")
-         .replace("H", ":")
-         .replace("M", ":")
-         .replace("S", "")
-      nextSearchItems[index]["duration"] = videoDuration
+      nextSearchItems[index]["duration"] = convertYouTubeDuration(videoDuration)
    })
    return nextSearchItems
 }
@@ -55,7 +53,6 @@ const MainPage = () => {
             params: {
                type: "video",
                maxResults: 9,
-               eventType: "completed",
                key: process.env.REACT_APP_YOUTUBE_API_KEY,
             },
             baseURL: process.env.REACT_APP_YOUTUBE_API!,
@@ -63,12 +60,18 @@ const MainPage = () => {
          try {
             const searchResponse: AxiosResponse<YouTubeSearchResponse> =
                await youtubeApi.get("/search", {
-                  params: { q: val, part: "snippet" },
+                  params: {
+                     q: val,
+                     part: "snippet",
+                  },
                })
             const videosId = getVideosId(searchResponse.data.items)
             const videosResponse: AxiosResponse<YouTubeVideoResponse> =
                await youtubeApi.get("/videos", {
-                  params: { part: "contentDetails", id: videosId },
+                  params: {
+                     part: "contentDetails",
+                     id: videosId,
+                  },
                })
             setSearchItems(
                appendVideoDuration(
@@ -98,12 +101,13 @@ const MainPage = () => {
       <MainFrame
          title={<Title text="YouTube Downloader" />}
          searchBar={<SearchBar handleSearch={handleSearch} loading={loading} />}
-         searchResults={searchItems?.map((item) => (
+         searchResults={searchItems?.map(item => (
             <VideoCard
                key={item.id.videoId}
                thumbnail={item.snippet.thumbnails.medium}
                title={item.snippet.title}
                duration={item.duration}
+               id={item.id.videoId}
             />
          ))}
       />

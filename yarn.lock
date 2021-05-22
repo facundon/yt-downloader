@@ -5665,6 +5665,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"duration-iso-8601@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "duration-iso-8601@npm:1.1.0"
+  checksum: d900facc3b42aaffe5184c2ef48cca1f4fdbb5de7f45268352eddfcd851300ed0013f987176df05dc3f1934ca5705fa9f96e2030a6bfc910c623271a265df91b
+  languageName: node
+  linkType: hard
+
 "ecc-jsbn@npm:~0.1.1":
   version: 0.1.2
   resolution: "ecc-jsbn@npm:0.1.2"
@@ -11725,16 +11732,6 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"prettier-plugin-organize-imports@npm:^2.1.0":
-  version: 2.1.0
-  resolution: "prettier-plugin-organize-imports@npm:2.1.0"
-  peerDependencies:
-    prettier: ">=2.0"
-    typescript: ">=2.9"
-  checksum: 80d0570ab544c67092e3f3fb42fbda7ba92d3bddc468d803e065d68e43effb49828f7537d9fa6e0bd654e0bcb76a628c90435b951663e13ecf326e22c57ce910
-  languageName: node
-  linkType: hard
-
 "pretty-bytes@npm:^5.3.0":
   version: 5.6.0
   resolution: "pretty-bytes@npm:5.6.0"
@@ -15452,8 +15449,8 @@ typescript@^4.1.2:
     "@types/react": ^17.0.0
     "@types/react-dom": ^17.0.0
     axios: ^0.21.1
+    duration-iso-8601: ^1.1.0
     eslint-config-react-app: ^6.0.0
-    prettier-plugin-organize-imports: ^2.1.0
     react: ^17.0.2
     react-dom: ^17.0.2
     react-scripts: 4.0.3

@@ -6,17 +6,40 @@
    margin: 0.5em;
    height: auto;
    width: auto;
+   overflow: hidden;
+   border-radius: 0.4em;
+   a {
+      display: inherit;
+      text-decoration: none;
+      color: inherit;
+      border-radius: inherit;
+      &:hover + .options {
+         visibility: visible;
+         opacity: 1;
+      }
+   }
+   &:hover a {
+      border-radius: 0;
+   }
 }
 
 .thumbnail {
    position: relative;
    background-color: f.getColor("black", 600);
+   border-radius: inherit;
+   transition: all ease-in 0.3s;
    p {
-      margin: 0.5em;
+      margin: 0.2em 0.5em 0.5em;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
       max-width: 300px;
+   }
+   img {
+      border-top-right-radius: inherit;
+   }
+   &:hover {
+      border-radius: 0;
    }
 }
 
@@ -25,32 +48,22 @@
    flex-direction: column;
    justify-content: space-around;
    align-items: center;
-   width: 24px;
-   padding: 0 1.5em;
-   background-image: linear-gradient(
-      to bottom,
-      transparent,
-      f.getColor("black", 600)
-   );
+   padding: 0 0.7em;
+   background-color: f.getColor("black", 600);
    visibility: hidden;
    opacity: 0;
-   transition: opacity 0.3s cubic-bezier(0.55, 0.085, 0.68, 0.53);
+   transition: all 0.3s cubic-bezier(0.55, 0.085, 0.68, 0.53);
    &:hover {
       opacity: 1;
       visibility: visible;
    }
 }
 
-.thumbnail:hover + .options {
-   visibility: visible;
-   opacity: 1;
-}
-
 .duration {
    background-color: f.getColor("black", 600);
-   border-radius: 1em 1em 0 0;
+   border-radius: 0em 1em 0.2em 1em;
    padding: 0.5em;
    position: absolute;
-   bottom: 2em;
-   right: -0.5em;
+   top: -0.5em;
+   left: -0.5em;
 }

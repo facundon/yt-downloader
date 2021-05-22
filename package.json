@@ -11,6 +11,7 @@
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "axios": "^0.21.1",
+    "duration-iso-8601": "^1.1.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
@@ -43,7 +44,6 @@
   },
   "devDependencies": {
     "eslint-config-react-app": "^6.0.0",
-    "prettier-plugin-organize-imports": "^2.1.0",
     "sass": "^1.32.13"
   }
 }

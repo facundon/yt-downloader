@@ -19,21 +19,13 @@ const IconButton = ({
 }: BtnProps) => {
    return (
       <div
-         className={`btn-wrapper ${appareance}`}
+         className={`btn-wrapper ${appareance} ${size} ${circle && "circle"}`}
          tabIndex={0}
-         style={{
-            borderRadius: circle ? "50%" : "",
-            width: size === "sm" ? "35px" : "50px",
-            height: size === "sm" ? "35px" : "48px",
-         }}
       >
          <button {...props}>
             <span
-               className="material-icons-round"
-               style={{
-                  color: iconColor || "",
-                  fontSize: size === "sm" ? "1.6em" : "2.5em",
-               }}
+               className={`material-icons-round ${size}`}
+               style={{ color: iconColor }}
             >
                {icon}
             </span>
