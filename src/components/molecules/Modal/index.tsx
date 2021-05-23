@@ -4,6 +4,7 @@ import "./index.scss"
 
 type ModalProps = {
    open: boolean
+   size?: string
    locked?: boolean
    onClose: () => void
 }
@@ -11,6 +12,7 @@ type ModalProps = {
 const Modal: React.FC<ModalProps> = ({
    children,
    open,
+   size,
    onClose,
    locked = false,
 }) => {
@@ -40,7 +42,8 @@ const Modal: React.FC<ModalProps> = ({
       if (open) {
          window.setTimeout(() => {
             setActive(open)
-            document.querySelector("#root")?.setAttribute("inert", "true")
+            document.querySelector("#root")?.toggleAttribute("inert")
+            backdropDOM?.firstElementChild?.querySelector("input")?.focus()
          }, 150)
       }
 
@@ -62,7 +65,9 @@ const Modal: React.FC<ModalProps> = ({
                   ref={backdrop}
                   className={`backdrop ${active && open && "active"}`}
                >
-                  <div className="modal-content">{children}</div>
+                  <div style={{ width: size }} className="modal-content">
+                     {children}
+                  </div>
                </div>
             </Portal>
          )}

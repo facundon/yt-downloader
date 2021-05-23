@@ -13,13 +13,15 @@ const SearchBar = ({
    return (
       <div className="search__wrapper">
          <Input
-            placeholder="Buscar"
-            onChange={(e) => setValue(e.target.value)}
+            placeholder="Search"
+            onChange={e => setValue(e.target.value)}
             type="search"
             aria-label="Buscar videos"
-            required
-            onKeyPress={(e) => e.key === "Enter" && handleSearch(value)}
+            onKeyPress={e => e.key === "Enter" && handleSearch(value)}
             loading={loading}
+            fontSize="md"
+            autoFocus
+            required
          />
          <IconButton
             icon="search"

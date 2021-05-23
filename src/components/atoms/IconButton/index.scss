@@ -47,9 +47,11 @@
       margin: 0;
       &.sm {
          font-size: 1.8em;
+         // font-size: f.getFontProp("size", "secondary");
       }
       &.md {
          font-size: 2.6em;
+         // font-size: f.getFontProp("size", "primary");
       }
    }
    &.primary {
