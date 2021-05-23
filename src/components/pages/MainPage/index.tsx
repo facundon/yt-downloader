@@ -1,7 +1,7 @@
 import MainFrame from "../../templates/MainFrame"
 import { useState } from "react"
 import { Title } from "../../atoms"
-import { SearchBar, VideoCard } from "../../molecules"
+import { OptionsBar, SearchBar, VideoCard } from "../../molecules"
 import axios, { AxiosResponse } from "axios"
 import { convertYouTubeDuration } from "duration-iso-8601"
 
@@ -12,6 +12,7 @@ import {
    YouTubeVideoItem,
    YouTubeVideoResponse,
 } from "./types"
+import { LoginForm } from "../../organisms"
 
 const checkEnvVariables = () => {
    if (
@@ -45,6 +46,7 @@ const appendVideoDuration = (
 const MainPage = () => {
    const [searchItems, setSearchItems] = useState<YouTubeVideo[]>([])
    const [loading, setLoading] = useState(false)
+   const [isLoginOpen, setIsLoginOpen] = useState(false)
 
    const handleSearch = async (val: string) => {
       setLoading(true)
@@ -98,19 +100,28 @@ const MainPage = () => {
       setLoading(false)
    }
    return (
-      <MainFrame
-         title={<Title text="YouTube Downloader" />}
-         searchBar={<SearchBar handleSearch={handleSearch} loading={loading} />}
-         searchResults={searchItems?.map(item => (
-            <VideoCard
-               key={item.id.videoId}
-               thumbnail={item.snippet.thumbnails.medium}
-               title={item.snippet.title}
-               duration={item.duration}
-               id={item.id.videoId}
-            />
-         ))}
-      />
+      <>
+         <MainFrame
+            title={<Title text="YouTube Downloader" />}
+            searchBar={
+               <SearchBar handleSearch={handleSearch} loading={loading} />
+            }
+            searchResults={searchItems?.map(item => (
+               <VideoCard
+                  key={item.id.videoId}
+                  thumbnail={item.snippet.thumbnails.medium}
+                  title={item.snippet.title}
+                  duration={item.duration}
+                  id={item.id.videoId}
+               />
+            ))}
+            options={<OptionsBar setIsLoginOpen={setIsLoginOpen} />}
+         />
+         <LoginForm
+            isOpen={isLoginOpen}
+            onClose={() => setIsLoginOpen(false)}
+         />
+      </>
    )
 }
 

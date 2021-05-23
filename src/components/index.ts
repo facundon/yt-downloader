@@ -1,5 +1,5 @@
-export { IconButton, Input, Title } from "./atoms"
-export { SearchBar, TopBar, VideoCard } from "./molecules"
+export { IconButton, Input, Title, Portal } from "./atoms"
+export { SearchBar, OptionsBar, VideoCard, Modal } from "./molecules"
 export { LoginForm, RegisterForm } from "./organisms"
 export { MainFrame } from "./templates"
 export { MainPage } from "./pages"

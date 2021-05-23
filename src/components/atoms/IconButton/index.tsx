@@ -3,7 +3,7 @@ import "./index.scss"
 
 interface BtnProps extends ButtonHTMLAttributes<HTMLButtonElement> {
    icon: string
-   appareance?: "primary" | "secondary" | "subtle"
+   appareance?: "primary" | "secondary" | "subtle" | "minimalist"
    circle?: boolean
    iconColor?: string
    size?: "sm" | "md"
