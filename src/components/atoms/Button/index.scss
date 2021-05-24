@@ -6,6 +6,7 @@
 
    cursor: pointer;
    user-select: none;
+   padding: 0.4em;
    border-radius: 15%;
    border-bottom-left-radius: initial;
    background-size: 200%;
@@ -13,6 +14,8 @@
    transition: transform cubic-bezier(0.075, 0.82, 0.165, 1) 0.2s,
       box-shadow ease-in-out 0.1s, background-position ease 0.5s;
    button {
+      font: inherit;
+      color: inherit;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -46,14 +49,13 @@
       padding: 0;
       margin: 0;
       &.sm {
-         font-size: 1.8em;
-         // font-size: f.getFontProp("size", "secondary");
+         font-size: 1.5em;
       }
       &.md {
          font-size: 2.6em;
-         // font-size: f.getFontProp("size", "primary");
       }
    }
+
    &.primary {
       background-image: linear-gradient(
          255deg,
@@ -80,14 +82,6 @@
          )
          1;
    }
-   &.sm {
-      width: $button-size-sm;
-      height: $button-size-sm;
-   }
-   &.md {
-      width: $button-size-md;
-      height: $button-size-md;
-   }
    &.circle {
       border-radius: 50%;
    }
@@ -101,15 +95,30 @@
          left: 0;
          height: 100%;
          width: 100%;
-         transition: all 0.25s ease;
+         transition: all 0.3s cubic-bezier(0.55, 0.085, 0.68, 0.53);
          border-radius: 100%;
          z-index: -1;
       }
-      &:hover::before {
-         box-shadow: inset 0 $button-size-sm/2 + 0.03em 0.35em 0em
+      &:hover::before,
+      &:focus::before {
+         box-shadow: inset 0 $button-size-sm/2 + 0.25em 0.4em 0em
                f.getColor("pink", 400),
-            inset 0 $button-size-sm/-2 - 0.05em 0.3em 0
-               f.getColor("violet", 400);
+            inset 0 $button-size-sm/-2 - 0.05em 0.3em 0 rgba(49, 206, 206, 0.74);
+      }
+   }
+   &.with-text {
+      font-weight: 600;
+      border-radius: 0.3em;
+      padding: 0.3em 0.8em;
+      span {
+         padding-right: 0.3em;
+      }
+      &.md {
+         font-size: 1.3em;
+         span {
+            padding-right: 0.3em;
+            font-size: 1.6em;
+         }
       }
    }
 }

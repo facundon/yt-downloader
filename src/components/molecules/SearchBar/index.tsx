@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Input, IconButton } from "../../atoms"
+import { Input, Button } from "../../atoms"
 import "./index.scss"
 
 const SearchBar = ({
@@ -23,11 +23,7 @@ const SearchBar = ({
             autoFocus
             required
          />
-         <IconButton
-            icon="search"
-            size="md"
-            onClick={() => handleSearch(value)}
-         />
+         <Button icon="search" size="md" onClick={() => handleSearch(value)} />
       </div>
    )
 }

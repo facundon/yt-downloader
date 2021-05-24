@@ -1,4 +1,4 @@
-import { IconButton } from "../../atoms"
+import { Button } from "../../atoms"
 import "./index.scss"
 
 type VideoCardProps = {
@@ -29,8 +29,8 @@ const VideoCard: React.FC<VideoCardProps> = ({
             </div>
          </a>
          <div className="options">
-            <IconButton icon="playlist_add" circle appareance="secondary" />
-            <IconButton icon="download" appareance="subtle" />
+            <Button icon="playlist_add" circle appareance="secondary" />
+            <Button icon="download" appareance="subtle" />
          </div>
       </div>
    )

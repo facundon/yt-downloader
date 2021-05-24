@@ -1,19 +1,21 @@
-import { IconButton } from "../../atoms"
+import { MouseEvent } from "react"
+import { Button } from "../../atoms"
 import "./index.scss"
 
 type OptionsBarProps = {
-   setIsLoginOpen: (val: boolean) => void
+   openAccount: (e: MouseEvent<HTMLButtonElement>) => void
+   openList: (e: MouseEvent<HTMLButtonElement>) => void
 }
 
-const OptionsBar: React.FC<OptionsBarProps> = ({ setIsLoginOpen }) => {
+const OptionsBar: React.FC<OptionsBarProps> = ({ openAccount, openList }) => {
    return (
       <div className="options-wrapper">
-         <IconButton
-            icon="person"
+         <Button icon="person" appareance="minimalist" onClick={openAccount} />
+         <Button
+            icon="queue_music"
             appareance="minimalist"
-            onClick={() => setIsLoginOpen(true)}
+            onClick={openList}
          />
-         <IconButton icon="queue_music" appareance="minimalist" />
       </div>
    )
 }

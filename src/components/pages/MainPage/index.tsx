@@ -1,5 +1,5 @@
 import MainFrame from "../../templates/MainFrame"
-import { useState } from "react"
+import { MouseEvent, useState } from "react"
 import { Title } from "../../atoms"
 import { OptionsBar, SearchBar, VideoCard } from "../../molecules"
 import axios, { AxiosResponse } from "axios"
@@ -12,7 +12,11 @@ import {
    YouTubeVideoItem,
    YouTubeVideoResponse,
 } from "./types"
-import { LoginForm } from "../../organisms"
+
+type MainPageProps = {
+   openAccount: (e: MouseEvent<HTMLButtonElement>) => void
+   openList: (e: MouseEvent<HTMLButtonElement>) => void
+}
 
 const checkEnvVariables = () => {
    if (
@@ -43,10 +47,9 @@ const appendVideoDuration = (
    return nextSearchItems
 }
 
-const MainPage = () => {
+const MainPage: React.FC<MainPageProps> = ({ openAccount, openList }) => {
    const [searchItems, setSearchItems] = useState<YouTubeVideo[]>([])
    const [loading, setLoading] = useState(false)
-   const [isLoginOpen, setIsLoginOpen] = useState(false)
 
    const handleSearch = async (val: string) => {
       setLoading(true)
@@ -115,11 +118,9 @@ const MainPage = () => {
                   id={item.id.videoId}
                />
             ))}
-            options={<OptionsBar setIsLoginOpen={setIsLoginOpen} />}
-         />
-         <LoginForm
-            isOpen={isLoginOpen}
-            onClose={() => setIsLoginOpen(false)}
+            options={
+               <OptionsBar openAccount={openAccount} openList={openList} />
+            }
          />
       </>
    )

@@ -43,7 +43,8 @@
    min-width: 50px;
    max-height: 80%;
    max-width: 80%;
-   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+   box-shadow: 0 5px 6px rgba(144, 144, 144, 0.16),
+      0 5px 16px rgba(155, 155, 155, 0.13);
    background-color: f.getColor("black", 400);
    border-radius: 0.5em;
 }

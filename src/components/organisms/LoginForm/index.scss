@@ -1,10 +1,55 @@
-.inputs {
+@use "../../../styles/functions" as f;
+
+.login-wrapper {
    display: flex;
    flex-direction: column;
-   justify-content: center;
+   justify-content: space-around;
    align-items: center;
-   padding-top: 1em;
-   > div {
-      margin: 0.3em 0;
+   padding-top: 1.5em;
+   font-size: 1.2em;
+   & a {
+      color: f.getColor("green", 200);
+      align-self: flex-end;
+   }
+   & > a:nth-of-type(1) {
+      font-size: 0.7em;
+   }
+   & p:nth-of-type(1) {
+      padding: 1em 0;
+      align-self: center;
+   }
+   & div {
+      margin: 0.4em 0;
+   }
+   & p:nth-last-of-type(1) {
+      align-self: flex-start;
+      position: relative;
+      padding-top: 2em;
+      &::before {
+         content: "";
+         position: absolute;
+         top: 25%;
+         left: 0;
+         width: 150%;
+         height: 1px;
+         background: f.getColor("orange", 400, 0.5);
+      }
+   }
+   .btn-wrapper {
+      align-self: stretch;
+      margin-top: 0.7em;
+   }
+   .social-media {
+      display: flex;
+      align-self: stretch;
+      justify-content: space-evenly;
+      a {
+         display: inline-block;
+         line-height: 0;
+      }
+      img {
+         width: 2.4em;
+         border-radius: 50%;
+      }
    }
 }
