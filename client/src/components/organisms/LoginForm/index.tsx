@@ -26,7 +26,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ openSignUp }) => {
                type="password"
                name="password"
             />
-            <a href="/forgot">Forgot Password?</a>
+            <Button appareance="link">Forgot Password?</Button>
             <Button icon="login" appareance="secondary" type="submit">
                Login
             </Button>
@@ -39,18 +39,12 @@ const LoginForm: React.FC<LoginFormProps> = ({ openSignUp }) => {
                   <img src={Facebook} alt="Sign in with facebook" />
                </a>
             </div>
-            <p>
+            <span>
                Dont have an account?{" "}
-               <a
-                  href="#"
-                  onClick={e => {
-                     e.preventDefault()
-                     openSignUp()
-                  }}
-               >
+               <Button appareance="link" onClick={openSignUp}>
                   Sign Up!
-               </a>
-            </p>
+               </Button>
+            </span>
          </div>
       </form>
    )

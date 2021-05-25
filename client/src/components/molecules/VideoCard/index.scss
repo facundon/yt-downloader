@@ -13,12 +13,14 @@
       text-decoration: none;
       color: inherit;
       border-radius: inherit;
-      &:hover + .options {
+      &:hover + .options,
+      &:focus + .options {
          visibility: visible;
          opacity: 1;
       }
    }
-   &:hover a {
+   &:hover a,
+   &:focus-within a {
       border-radius: 0;
    }
 }
@@ -50,18 +52,23 @@
    align-items: center;
    padding: 0 0.7em;
    background-color: f.getColor("black", 600);
-   visibility: hidden;
-   opacity: 0;
+   visibility: visible;
+   opacity: 1;
    transition: all 0.3s cubic-bezier(0.55, 0.085, 0.68, 0.53);
-   &:hover {
+   &:hover,
+   &:focus-within {
       opacity: 1;
       visibility: visible;
+   }
+   @media (hover) {
+      opacity: 0;
+      visibility: hidden;
    }
 }
 
 .duration {
    background-color: f.getColor("black", 600);
-   border-radius: 0em 1em 0.2em 1em;
+   border-radius: 0em 1em 0.1em 1em;
    padding: 0.5em;
    position: absolute;
    top: -0.5em;

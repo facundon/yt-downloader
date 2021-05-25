@@ -39,18 +39,12 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ openLogin }) => {
             <Button icon="how_to_reg" appareance="secondary" type="submit">
                Sign Up!
             </Button>
-            <p>
+            <span>
                Already have an account?{" "}
-               <a
-                  href="#"
-                  onClick={e => {
-                     e.preventDefault()
-                     openLogin()
-                  }}
-               >
+               <Button appareance="link" onClick={openLogin}>
                   Log In!
-               </a>
-            </p>
+               </Button>
+            </span>
          </div>
       </form>
    )
