@@ -30,7 +30,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ openSignUp }) => {
             <Button icon="login" appareance="secondary" type="submit">
                Login
             </Button>
-            <p>Or sign in using</p>
+            <p>Or log in using</p>
             <div className="social-media">
                <a href="https://google.com.ar">
                   <img src={Google} alt="Sign in with google" />
