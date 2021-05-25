@@ -105,7 +105,7 @@ const MainPage: React.FC<MainPageProps> = ({ openAccount, openList }) => {
    return (
       <>
          <MainFrame
-            title={<Title text="YouTube Downloader" />}
+            title={<Title text="YouTube Mp3 Downloader" />}
             searchBar={
                <SearchBar handleSearch={handleSearch} loading={loading} />
             }

@@ -3,13 +3,13 @@
       "**/.yarn": true,
       "**/.pnp.*": true
    },
-   "typescript.tsdk": "client/.yarn/sdks/typescript/lib",
+   "typescript.tsdk": ".yarn/sdks/typescript/lib",
    "typescript.enablePromptUseWorkspaceTsdk": true,
    "editor.tabSize": 3,
    "html.format.indentInnerHtml": true,
    "prettier.tabWidth": 3,
    "editor.detectIndentation": false,
-   "eslint.nodePath": "client/.yarn/sdks",
+   "eslint.nodePath": ".yarn/sdks",
    "eslint.packageManager": "yarn",
    "gitlens.hovers.currentLine.enabled": false
 }

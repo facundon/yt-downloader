@@ -12,7 +12,8 @@
    background-size: 200%;
    box-shadow: 0px 4px 8px 0 f.getColor("pink", 200, 0.3);
    transition: transform cubic-bezier(0.075, 0.82, 0.165, 1) 0.2s,
-      box-shadow ease-in-out 0.1s, background-position ease 0.5s;
+      box-shadow ease-in-out 0.1s, background-position ease 0.5s,
+      filter cubic-bezier(0.46, 0.54, 0.84, 1.27) 500ms;
    button {
       font: inherit;
       color: inherit;
@@ -38,6 +39,7 @@
       text-decoration: none;
       outline: none;
       background-position: right;
+      filter: hue-rotate(-80deg);
    }
    &:active {
       transform: translateY(4px);
@@ -76,15 +78,22 @@
       background-color: transparent;
       border: 3px solid;
       border-image: linear-gradient(
-            to bottom,
-            f.getColor("violet", 400),
-            f.getColor("pink", 400)
-         )
-         1;
+         to bottom,
+         f.getColor("violet", 400),
+         f.getColor("pink", 400)
+      );
+      border-image-slice: 1;
+      transition: filter 600ms ease-in-out;
+      &:hover,
+      &:focus {
+         filter: hue-rotate(340deg);
+      }
    }
+
    &.circle {
       border-radius: 50%;
    }
+
    &.minimalist {
       position: relative;
       box-shadow: none;
@@ -103,13 +112,15 @@
       &:focus::before {
          box-shadow: inset 0 $button-size-sm/2 + 0.25em 0.4em 0em
                f.getColor("pink", 400),
-            inset 0 $button-size-sm/-2 - 0.05em 0.3em 0 rgba(49, 206, 206, 0.74);
+            inset 0 $button-size-sm/-2 - 0.05em 0.3em 0
+               f.getColor("violet", 400, 0.9);
       }
    }
+
    &.with-text {
       font-weight: 600;
       border-radius: 0.3em;
-      padding: 0.3em 0.8em;
+      padding: 0.5em 1em;
       span {
          padding-right: 0.3em;
       }
@@ -119,6 +130,22 @@
             padding-right: 0.3em;
             font-size: 1.6em;
          }
+      }
+   }
+
+   &.link {
+      display: inline-block;
+      border: none;
+      box-shadow: none;
+      background-color: transparent;
+      padding: 0;
+      margin: 0;
+      width: max-content;
+      text-decoration: underline;
+      font-weight: normal;
+      font-size: inherit;
+      &:active {
+         transform: translate(0);
       }
    }
 }
