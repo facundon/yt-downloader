@@ -1,6 +1,7 @@
 @use "../../../styles/functions" as f;
 
 .login-wrapper {
+   position: relative;
    display: flex;
    flex-direction: column;
    justify-content: space-around;
@@ -11,14 +12,19 @@
       color: f.getColor("green", 200);
       align-self: flex-end;
    }
+   & p.error {
+      color: f.getColor("red", 400);
+      font-size: 0.7em;
+      align-self: flex-start;
+   }
    > .link:nth-child(n) {
       font-size: 0.7em;
    }
-   & p:nth-of-type(1) {
+   & p:nth-of-type(1):not(.error) {
       padding: 1em 0;
       align-self: center;
    }
-   & div {
+   & > div {
       margin: 0.4em 0;
    }
    & span:not(.material-icons-round) {
@@ -38,6 +44,9 @@
    .btn-wrapper:not(.link) {
       align-self: stretch;
       margin-top: 1em;
+      .loader {
+         height: 28px;
+      }
    }
    .social-media {
       display: flex;

@@ -45,6 +45,19 @@
       transform: translateY(4px);
       box-shadow: 0 2px 4px f.getColor("pink", 400, 0.5);
    }
+   &.disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+      &:active,
+      &:hover,
+      &:focus,
+      &:focus-visible {
+         transform: none;
+         box-shadow: 0px 4px 8px 0 f.getColor("pink", 200, 0.3);
+         background-position: initial;
+         filter: none;
+      }
+   }
 
    span {
       color: f.getColor("white", 200);

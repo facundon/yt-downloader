@@ -1,7 +1,11 @@
-import { FocusEvent, InputHTMLAttributes } from "react"
+import { DetailedHTMLProps, FocusEvent, InputHTMLAttributes } from "react"
 import "./index.scss"
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface InputProps
+   extends DetailedHTMLProps<
+      InputHTMLAttributes<HTMLInputElement>,
+      HTMLInputElement
+   > {
    loading?: boolean
    fontSize?: "sm" | "md"
    icon?: string
@@ -9,9 +13,9 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 
 const Input: React.FC<InputProps> = ({
    onChange,
+   icon,
    loading = false,
    fontSize = "sm",
-   icon,
    ...props
 }) => {
    const handleFocus = (e: FocusEvent<HTMLInputElement>) => {

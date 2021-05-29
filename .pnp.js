@@ -49,6 +49,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-config-react-app", "virtual:4fcf8489f760bc3016b29543e53d9551d940c347ab4d8886e1e153c5d3c3802e5c0ac4bfaa86e502f09ec71eebfa290710a8915162a5f00f3b195ef9e69b47ca#npm:6.0.0"],
             ["react", "npm:17.0.2"],
             ["react-dom", "virtual:4fcf8489f760bc3016b29543e53d9551d940c347ab4d8886e1e153c5d3c3802e5c0ac4bfaa86e502f09ec71eebfa290710a8915162a5f00f3b195ef9e69b47ca#npm:17.0.2"],
+            ["react-hook-form", "virtual:4fcf8489f760bc3016b29543e53d9551d940c347ab4d8886e1e153c5d3c3802e5c0ac4bfaa86e502f09ec71eebfa290710a8915162a5f00f3b195ef9e69b47ca#npm:7.7.0"],
             ["react-scripts", "virtual:4fcf8489f760bc3016b29543e53d9551d940c347ab4d8886e1e153c5d3c3802e5c0ac4bfaa86e502f09ec71eebfa290710a8915162a5f00f3b195ef9e69b47ca#npm:4.0.3"],
             ["sass", "npm:1.32.13"],
             ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=a45b0e"],
@@ -16320,6 +16321,28 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["react-hook-form", [
+        ["npm:7.7.0", {
+          "packageLocation": "./.yarn/cache/react-hook-form-npm-7.7.0-4566625909-a7517cdffc.zip/node_modules/react-hook-form/",
+          "packageDependencies": [
+            ["react-hook-form", "npm:7.7.0"]
+          ],
+          "linkType": "SOFT",
+        }],
+        ["virtual:4fcf8489f760bc3016b29543e53d9551d940c347ab4d8886e1e153c5d3c3802e5c0ac4bfaa86e502f09ec71eebfa290710a8915162a5f00f3b195ef9e69b47ca#npm:7.7.0", {
+          "packageLocation": "./.yarn/$$virtual/react-hook-form-virtual-1d4b055765/0/cache/react-hook-form-npm-7.7.0-4566625909-a7517cdffc.zip/node_modules/react-hook-form/",
+          "packageDependencies": [
+            ["react-hook-form", "virtual:4fcf8489f760bc3016b29543e53d9551d940c347ab4d8886e1e153c5d3c3802e5c0ac4bfaa86e502f09ec71eebfa290710a8915162a5f00f3b195ef9e69b47ca#npm:7.7.0"],
+            ["@types/react", "npm:17.0.6"],
+            ["react", "npm:17.0.2"]
+          ],
+          "packagePeers": [
+            "@types/react",
+            "react"
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["react-is", [
         ["npm:16.13.1", {
           "packageLocation": "./.yarn/cache/react-is-npm-16.13.1-a9b9382b4f-11bcf1267a.zip/node_modules/react-is/",
@@ -20165,6 +20188,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-config-react-app", "virtual:4fcf8489f760bc3016b29543e53d9551d940c347ab4d8886e1e153c5d3c3802e5c0ac4bfaa86e502f09ec71eebfa290710a8915162a5f00f3b195ef9e69b47ca#npm:6.0.0"],
             ["react", "npm:17.0.2"],
             ["react-dom", "virtual:4fcf8489f760bc3016b29543e53d9551d940c347ab4d8886e1e153c5d3c3802e5c0ac4bfaa86e502f09ec71eebfa290710a8915162a5f00f3b195ef9e69b47ca#npm:17.0.2"],
+            ["react-hook-form", "virtual:4fcf8489f760bc3016b29543e53d9551d940c347ab4d8886e1e153c5d3c3802e5c0ac4bfaa86e502f09ec71eebfa290710a8915162a5f00f3b195ef9e69b47ca#npm:7.7.0"],
             ["react-scripts", "virtual:4fcf8489f760bc3016b29543e53d9551d940c347ab4d8886e1e153c5d3c3802e5c0ac4bfaa86e502f09ec71eebfa290710a8915162a5f00f3b195ef9e69b47ca#npm:4.0.3"],
             ["sass", "npm:1.32.13"],
             ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=a45b0e"],
