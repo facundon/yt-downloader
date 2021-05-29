@@ -1,11 +1,17 @@
-import { useForm } from "react-hook-form"
+import axios from "axios"
+import {
+   SubmitHandler,
+   useForm,
+   UseFormProps,
+   RegisterOptions,
+} from "react-hook-form"
 import { Button, Input } from "../../atoms"
+import { EMAIL_REGEX } from "../LoginForm"
 
 import "./index.scss"
 
 type RegisterFormProps = {
    openLogin: () => void
-   close: () => void
 }
 type FormValues = {
    name: string
@@ -14,57 +20,119 @@ type FormValues = {
    repPassword: string
 }
 
-const RegisterForm: React.FC<RegisterFormProps> = ({ openLogin, close }) => {
+const validationMap: Record<keyof FormValues, RegisterOptions> = {
+   name: {
+      required: { value: true, message: "Please enter your name" },
+   },
+   email: {
+      required: {
+         value: true,
+         message: "Please enter your email",
+      },
+      pattern: {
+         value: EMAIL_REGEX,
+         message: "Invalid email address",
+      },
+   },
+   password: {
+      required: {
+         value: true,
+         message: "Please enter a password",
+      },
+      minLength: {
+         value: 3,
+         message: "Password must be at least 3 characters",
+      },
+   },
+   repPassword: {
+      required: {
+         value: true,
+         message: "Please repeat the password",
+      },
+   },
+}
+
+const USE_FORM_CONFIG: UseFormProps<FormValues> = {
+   mode: "onTouched",
+}
+
+const RegisterForm: React.FC<RegisterFormProps> = ({ openLogin }) => {
    const {
       register,
       handleSubmit,
-      reset,
-      formState: { errors },
-   } = useForm<FormValues>()
+      setError,
+      formState: { errors, dirtyFields, isSubmitting },
+   } = useForm<FormValues>(USE_FORM_CONFIG)
 
-   const onSubmit = (values: FormValues) => {}
+   const onSubmit: SubmitHandler<FormValues> = async values => {
+      try {
+         const response = await axios.post(
+            "http://localhost:5000/register",
+            values,
+            {
+               withCredentials: true,
+            }
+         )
+         openLogin()
+      } catch (err) {
+         console.log(err.response.data)
+         setError("email", {
+            message: err.response.data.message,
+         })
+      }
+   }
+
    return (
       <form onSubmit={handleSubmit(onSubmit)}>
          <h2>Sign Up</h2>
          <div className="login-wrapper register">
             <Input
+               defaultValue=""
                icon="person"
                placeholder="Name"
                type="text"
-               {...register("name", { required: true })}
                autoFocus
+               {...register("name", validationMap.name)}
             />
-            {errors.name && (
-               <p className="input-error">{errors.name.message}</p>
-            )}
+            {errors.name && <p className="error">{errors.name.message}</p>}
             <Input
+               defaultValue=""
                icon="alternate_email"
                placeholder="Email"
                type="email"
-               {...register("email", { required: true })}
+               {...register("email", validationMap.email)}
             />
-            {errors.email && (
-               <p className="input-error">{errors.email.message}</p>
-            )}
+            {errors.email && <p className="error">{errors.email.message}</p>}
             <Input
+               defaultValue=""
                icon="vpn_key"
                placeholder="Password"
                type="password"
-               {...register("password", { required: true })}
+               {...register("password", validationMap.password)}
             />
             {errors.password && (
-               <p className="input-error">{errors.password.message}</p>
+               <p className="error">{errors.password.message}</p>
             )}
             <Input
+               defaultValue=""
                icon="vpn_key"
                placeholder="Repeat Password"
                type="password"
-               {...register("password", { required: true })}
+               {...register("repPassword", validationMap.repPassword)}
             />
             {errors.repPassword && (
-               <p className="input-error">{errors.repPassword.message}</p>
+               <p className="error">{errors.repPassword.message}</p>
             )}
-            <Button icon="how_to_reg" appareance="secondary" type="submit">
+            <Button
+               icon="how_to_reg"
+               appareance="secondary"
+               type="submit"
+               disabled={
+                  Object.keys(errors).length !== 0 ||
+                  Object.values(dirtyFields).length !== 4
+               }
+               loading={isSubmitting}
+            >
                Sign Up!
             </Button>
             <span>

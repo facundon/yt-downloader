@@ -1,4 +1,9 @@
-import { SubmitHandler, useForm, UseFormProps } from "react-hook-form"
+import {
+   RegisterOptions,
+   SubmitHandler,
+   useForm,
+   UseFormProps,
+} from "react-hook-form"
 import axios from "axios"
 
 import { Input, Button } from "../../atoms"
@@ -7,7 +12,7 @@ import Facebook from "../../../icons/facebook.svg"
 
 import "./index.scss"
 
-const EMAIL_REGEX =
+export const EMAIL_REGEX =
    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
 type LoginFormProps = {
@@ -24,10 +29,28 @@ const defaultValues = {
    password: "",
 }
 
+const validationMap: Record<keyof FormValues, RegisterOptions> = {
+   email: {
+      required: {
+         value: true,
+         message: "Please enter your email",
+      },
+      pattern: {
+         value: EMAIL_REGEX,
+         message: "Invalid email address",
+      },
+   },
+   password: {
+      required: {
+         value: true,
+         message: "Please enter a password",
+      },
+   },
+}
+
 const USE_FORM_CONFIG: UseFormProps<FormValues> = {
    mode: "onTouched",
 }
-const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
 
 const LoginForm: React.FC<LoginFormProps> = ({ openSignUp, close }) => {
    const {
@@ -39,13 +62,12 @@ const LoginForm: React.FC<LoginFormProps> = ({ openSignUp, close }) => {
 
    const onSubmit: SubmitHandler<FormValues> = async (values, e) => {
       try {
-         await sleep(2000)
          await axios.post("http://localhost:5000/login", values, {
             withCredentials: true,
          })
          close()
       } catch (err) {
-         setError("password", { message: "Wrong password" })
+         setError("password", { message: "Wrong user or password" })
       }
    }
 
@@ -60,16 +82,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ openSignUp, close }) => {
                   placeholder="Email"
                   type="email"
                   autoFocus
-                  {...register("email", {
-                     required: {
-                        value: true,
-                        message: "Please enter an email",
-                     },
-                     pattern: {
-                        value: EMAIL_REGEX,
-                        message: "Invalid email address",
-                     },
-                  })}
+                  {...register("email", validationMap.email)}
                />
                {errors.email && <p className="error">{errors.email.message}</p>}
                <Input
@@ -77,12 +90,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ openSignUp, close }) => {
                   icon="vpn_key"
                   placeholder="Password"
                   type="password"
-                  {...register("password", {
-                     required: {
-                        value: true,
-                        message: "Please enter a password",
-                     },
-                  })}
+                  {...register("password", validationMap.password)}
                />
                {errors.password && (
                   <p className="error">{errors.password.message}</p>
@@ -95,7 +103,8 @@ const LoginForm: React.FC<LoginFormProps> = ({ openSignUp, close }) => {
                   appareance="secondary"
                   type="submit"
                   disabled={
-                     Object.keys(errors).length !== 0 || !dirtyFields.password
+                     Object.keys(errors).length !== 0 ||
+                     Object.keys(dirtyFields).length !== 2
                   }
                   loading={isSubmitting}
                >

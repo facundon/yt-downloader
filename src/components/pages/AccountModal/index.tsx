@@ -15,10 +15,7 @@ const AccountModal: React.FC<AccountModalProps> = ({ open, onClose }) => {
    return (
       <Modal open={open} onClose={onClose} size={"400px"}>
          {openSignUp ? (
-            <RegisterForm
-               openLogin={() => setOpenSignUp(false)}
-               close={onClose}
-            />
+            <RegisterForm openLogin={() => setOpenSignUp(false)} />
          ) : (
             <LoginForm openSignUp={() => setOpenSignUp(true)} close={onClose} />
          )}
