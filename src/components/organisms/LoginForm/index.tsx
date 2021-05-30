@@ -6,7 +6,7 @@ import {
 } from "react-hook-form"
 import axios from "axios"
 
-import useLogin from "../../../hooks/useLogin"
+import { useAuth } from "../../../hooks"
 import { Input, Button } from "../../atoms"
 import Google from "../../../icons/google.svg"
 import Facebook from "../../../icons/facebook.svg"
@@ -60,7 +60,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ openSignUp, close }) => {
       setError,
       formState: { errors, dirtyFields, isSubmitting },
    } = useForm<FormValues>(USE_FORM_CONFIG)
-   const { login } = useLogin()
+   const { login } = useAuth()
 
    const onSubmit: SubmitHandler<FormValues> = async (values, e) => {
       try {

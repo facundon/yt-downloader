@@ -1,11 +1,10 @@
-import axios from "axios"
 import {
    SubmitHandler,
    useForm,
    UseFormProps,
    RegisterOptions,
 } from "react-hook-form"
-import useLogin from "../../../hooks/useLogin"
+import { useAuth } from "../../../hooks"
 import { Button, Input } from "../../atoms"
 import { EMAIL_REGEX } from "../LoginForm"
 
@@ -64,7 +63,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ openLogin }) => {
       setError,
       formState: { errors, dirtyFields, isSubmitting },
    } = useForm<FormValues>(USE_FORM_CONFIG)
-   const { register: registerUser } = useLogin()
+   const { register: registerUser } = useAuth()
 
    const onSubmit: SubmitHandler<FormValues> = async values => {
       try {

@@ -2,49 +2,12 @@ import MainFrame from "../../templates/MainFrame"
 import { MouseEvent, useState } from "react"
 import { Title } from "../../atoms"
 import { OptionsBar, SearchBar, VideoCard } from "../../molecules"
-import axios, { AxiosResponse } from "axios"
-import { convertYouTubeDuration } from "duration-iso-8601"
-
-import {
-   YouTubeSearchItem,
-   YouTubeSearchResponse,
-   YouTubeVideo,
-   YouTubeVideoItem,
-   YouTubeVideoResponse,
-} from "./types"
+import axios from "axios"
+import { YouTubeVideo } from "../../../types/youtube"
 
 type MainPageProps = {
    openAccount: (e: MouseEvent<HTMLButtonElement>) => void
    openList: (e: MouseEvent<HTMLButtonElement>) => void
-}
-
-const checkEnvVariables = () => {
-   if (
-      !process.env.REACT_APP_YOUTUBE_API ||
-      !process.env.REACT_APP_YOUTUBE_API_KEY
-   )
-      throw Error(
-         "Need env REACT_APP_YOUTUBE_API and REACT_APP_YOUTUBE_API_KEY"
-      )
-   return true
-}
-
-const getVideosId = (items: YouTubeSearchItem[]) => {
-   let result = ""
-   items.forEach(item => (result += item.id.videoId + ","))
-   return result
-}
-
-const appendVideoDuration = (
-   searchItems: YouTubeSearchItem[],
-   videoItems: YouTubeVideoItem[]
-) => {
-   const nextSearchItems: YouTubeVideo[] = Object.assign([], searchItems)
-   searchItems.forEach((_, index) => {
-      const videoDuration = videoItems[index].contentDetails.duration
-      nextSearchItems[index]["duration"] = convertYouTubeDuration(videoDuration)
-   })
-   return nextSearchItems
 }
 
 const MainPage: React.FC<MainPageProps> = ({ openAccount, openList }) => {
@@ -53,54 +16,18 @@ const MainPage: React.FC<MainPageProps> = ({ openAccount, openList }) => {
 
    const handleSearch = async (val: string) => {
       setLoading(true)
-      if (val && checkEnvVariables()) {
-         const youtubeApi = axios.create({
-            params: {
-               type: "video",
-               maxResults: 9,
-               key: process.env.REACT_APP_YOUTUBE_API_KEY,
-            },
-            baseURL: process.env.REACT_APP_YOUTUBE_API!,
+      try {
+         const response = await axios.get("/api/youtube", {
+            baseURL: process.env.REACT_APP_BACKEND_API,
+            withCredentials: true,
+            params: { search_term: val },
          })
-         try {
-            const searchResponse: AxiosResponse<YouTubeSearchResponse> =
-               await youtubeApi.get("/search", {
-                  params: {
-                     q: val,
-                     part: "snippet",
-                  },
-               })
-            const videosId = getVideosId(searchResponse.data.items)
-            const videosResponse: AxiosResponse<YouTubeVideoResponse> =
-               await youtubeApi.get("/videos", {
-                  params: {
-                     part: "contentDetails",
-                     id: videosId,
-                  },
-               })
-            setSearchItems(
-               appendVideoDuration(
-                  searchResponse.data.items,
-                  videosResponse.data.items
-               )
-            )
-         } catch (error) {
-            if (error.response) {
-               // The request was made and the server responded with a status code
-               // that falls out of the range of 2xx
-               console.error(error.response.data)
-               console.error(error.response.status)
-            } else if (error.request) {
-               // The request was made but no response was received
-               console.error(error.request)
-            } else {
-               // Something happened in setting up the request that triggered an Error
-               console.error("Error", error.message)
-            }
-            console.error(error.config)
-         }
+         setSearchItems(response.data)
+      } catch (err) {
+         console.log(err.message)
+      } finally {
+         setLoading(false)
       }
-      setLoading(false)
    }
    return (
       <>

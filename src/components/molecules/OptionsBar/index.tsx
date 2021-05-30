@@ -1,5 +1,5 @@
 import { MouseEvent } from "react"
-import useLogin from "../../../hooks/useLogin"
+import { useAuth } from "../../../hooks"
 import { Button } from "../../atoms"
 import "./index.scss"
 
@@ -9,8 +9,9 @@ type OptionsBarProps = {
 }
 
 const OptionsBar: React.FC<OptionsBarProps> = ({ openAccount, openList }) => {
-   const { user } = useLogin()
+   const { user } = useAuth()
    console.log(user)
+
    return (
       <div className="options-wrapper">
          <Button icon="person" appareance="minimalist" onClick={openAccount} />

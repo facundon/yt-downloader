@@ -1,12 +1,12 @@
 import React, { useState, createContext, useMemo } from "react"
 import { User } from "../types/server"
 
-type UserContext = {
+type UserContextType = {
    user: User | null
    setUser: React.Dispatch<React.SetStateAction<User | null>>
 }
 
-export const UserContext = createContext<Partial<UserContext>>({})
+export const UserContext = createContext<Partial<UserContextType>>({})
 
 const LoginContext: React.FC = ({ children }) => {
    const [user, setUser] = useState<User | null>(null)
