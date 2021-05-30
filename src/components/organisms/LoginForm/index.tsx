@@ -6,6 +6,7 @@ import {
 } from "react-hook-form"
 import axios from "axios"
 
+import useLogin from "../../../hooks/useLogin"
 import { Input, Button } from "../../atoms"
 import Google from "../../../icons/google.svg"
 import Facebook from "../../../icons/facebook.svg"
@@ -13,7 +14,7 @@ import Facebook from "../../../icons/facebook.svg"
 import "./index.scss"
 
 export const EMAIL_REGEX =
-   /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
 type LoginFormProps = {
    openSignUp: () => void
@@ -59,12 +60,11 @@ const LoginForm: React.FC<LoginFormProps> = ({ openSignUp, close }) => {
       setError,
       formState: { errors, dirtyFields, isSubmitting },
    } = useForm<FormValues>(USE_FORM_CONFIG)
+   const { login } = useLogin()
 
    const onSubmit: SubmitHandler<FormValues> = async (values, e) => {
       try {
-         await axios.post("http://localhost:5000/login", values, {
-            withCredentials: true,
-         })
+         await login(values)
          close()
       } catch (err) {
          setError("password", { message: "Wrong user or password" })
@@ -112,14 +112,24 @@ const LoginForm: React.FC<LoginFormProps> = ({ openSignUp, close }) => {
                </Button>
                <p>Or log in using</p>
                <div className="social-media">
-                  <a href="#">
+                  <a
+                     href="#"
+                     onClick={async () => {
+                        const res = await axios.get(
+                           "http://localhost:5000/logout",
+                           { withCredentials: true }
+                        )
+                        console.log(res)
+                     }}
+                  >
                      <img src={Google} alt="Sign in with google" />
                   </a>
                   <a
                      href="#"
                      onClick={async () => {
                         const res = await axios.get(
-                           "http://localhost:5000/api/converter"
+                           "http://localhost:5000/api/converter",
+                           { withCredentials: true }
                         )
                         console.log(res)
                      }}

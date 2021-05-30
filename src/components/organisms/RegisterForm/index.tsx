@@ -5,6 +5,7 @@ import {
    UseFormProps,
    RegisterOptions,
 } from "react-hook-form"
+import useLogin from "../../../hooks/useLogin"
 import { Button, Input } from "../../atoms"
 import { EMAIL_REGEX } from "../LoginForm"
 
@@ -63,21 +64,15 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ openLogin }) => {
       setError,
       formState: { errors, dirtyFields, isSubmitting },
    } = useForm<FormValues>(USE_FORM_CONFIG)
+   const { register: registerUser } = useLogin()
 
    const onSubmit: SubmitHandler<FormValues> = async values => {
       try {
-         const response = await axios.post(
-            "http://localhost:5000/register",
-            values,
-            {
-               withCredentials: true,
-            }
-         )
+         await registerUser(values)
          openLogin()
       } catch (err) {
-         console.log(err.response.data)
          setError("email", {
-            message: err.response.data.message,
+            message: err.message,
          })
       }
    }
