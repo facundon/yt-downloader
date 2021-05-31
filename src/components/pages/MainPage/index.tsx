@@ -6,8 +6,8 @@ import axios from "axios"
 import { YouTubeVideo } from "../../../types/youtube"
 
 type MainPageProps = {
-   openAccount: (e: MouseEvent<HTMLButtonElement>) => void
-   openList: (e: MouseEvent<HTMLButtonElement>) => void
+   openAccount: (e?: MouseEvent<HTMLButtonElement>) => void
+   openList: (e?: MouseEvent<HTMLButtonElement>) => void
 }
 
 const MainPage: React.FC<MainPageProps> = ({ openAccount, openList }) => {
@@ -24,32 +24,26 @@ const MainPage: React.FC<MainPageProps> = ({ openAccount, openList }) => {
          })
          setSearchItems(response.data)
       } catch (err) {
-         console.log(err.message)
+         openAccount()
       } finally {
          setLoading(false)
       }
    }
    return (
-      <>
-         <MainFrame
-            title={<Title text="YouTube Mp3 Downloader" />}
-            searchBar={
-               <SearchBar handleSearch={handleSearch} loading={loading} />
-            }
-            searchResults={searchItems?.map(item => (
-               <VideoCard
-                  key={item.id.videoId}
-                  thumbnail={item.snippet.thumbnails.medium}
-                  title={item.snippet.title}
-                  duration={item.duration}
-                  id={item.id.videoId}
-               />
-            ))}
-            options={
-               <OptionsBar openAccount={openAccount} openList={openList} />
-            }
-         />
-      </>
+      <MainFrame
+         title={<Title text="YouTube Mp3 Downloader" />}
+         searchBar={<SearchBar handleSearch={handleSearch} loading={loading} />}
+         searchResults={searchItems?.map(item => (
+            <VideoCard
+               key={item.id.videoId}
+               thumbnail={item.snippet.thumbnails.medium}
+               title={item.snippet.title}
+               duration={item.duration}
+               id={item.id.videoId}
+            />
+         ))}
+         options={<OptionsBar openAccount={openAccount} openList={openList} />}
+      />
    )
 }
 

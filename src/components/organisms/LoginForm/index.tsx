@@ -112,28 +112,10 @@ const LoginForm: React.FC<LoginFormProps> = ({ openSignUp, close }) => {
                </Button>
                <p>Or log in using</p>
                <div className="social-media">
-                  <a
-                     href="#"
-                     onClick={async () => {
-                        const res = await axios.get(
-                           "http://localhost:5000/logout",
-                           { withCredentials: true }
-                        )
-                        console.log(res)
-                     }}
-                  >
+                  <a href="#">
                      <img src={Google} alt="Sign in with google" />
                   </a>
-                  <a
-                     href="#"
-                     onClick={async () => {
-                        const res = await axios.get(
-                           "http://localhost:5000/api/converter",
-                           { withCredentials: true }
-                        )
-                        console.log(res)
-                     }}
-                  >
+                  <a href="#">
                      <img src={Facebook} alt="Sign in with facebook" />
                   </a>
                </div>

@@ -9,7 +9,13 @@ type UserContextType = {
 export const UserContext = createContext<Partial<UserContextType>>({})
 
 const LoginContext: React.FC = ({ children }) => {
-   const [user, setUser] = useState<User | null>(null)
+   const [user, setUser] = useState<User | null>(() => {
+      const result = localStorage.getItem("user")
+      if (result) {
+         return JSON.parse(result) as User
+      }
+      return null
+   })
    const providerUser = useMemo(() => ({ user, setUser }), [user, setUser])
 
    return (

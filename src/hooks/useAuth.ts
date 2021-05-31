@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios"
-import { useContext } from "react"
+import { useCallback, useContext } from "react"
 import { UserContext } from "../context/LoginContext"
 import { User } from "../types/server"
 
@@ -34,14 +34,23 @@ function useAuth() {
       }
    }
 
-   const login = async (data: {}) => {
-      const response = await request("login", data)
-      response && setUser!(response)
-   }
-   const logout = async () => {
+   const login = useCallback(
+      async (data: {}) => {
+         const response = await request("login", data)
+         if (response) {
+            setUser!(response)
+            localStorage.setItem("user", JSON.stringify(response))
+         }
+      },
+      [setUser]
+   )
+
+   const logout = useCallback(async () => {
       await request("logout")
       setUser!(null)
-   }
+      localStorage.removeItem("user")
+   }, [setUser])
+
    const register = async (data: {}) => await request("register", data)
 
    return { user, login, logout, register }
