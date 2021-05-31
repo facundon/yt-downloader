@@ -2,8 +2,8 @@ import MainFrame from "../../templates/MainFrame"
 import { MouseEvent, useState } from "react"
 import { Title } from "../../atoms"
 import { OptionsBar, SearchBar, VideoCard } from "../../molecules"
-import axios from "axios"
 import { YouTubeVideo } from "../../../types/youtube"
+import { useAuth } from "../../../hooks"
 
 type MainPageProps = {
    openAccount: (e?: MouseEvent<HTMLButtonElement>) => void
@@ -12,27 +12,22 @@ type MainPageProps = {
 
 const MainPage: React.FC<MainPageProps> = ({ openAccount, openList }) => {
    const [searchItems, setSearchItems] = useState<YouTubeVideo[]>([])
-   const [loading, setLoading] = useState(false)
+   const { logout } = useAuth()
 
-   const handleSearch = async (val: string) => {
-      setLoading(true)
-      try {
-         const response = await axios.get("/api/youtube", {
-            baseURL: process.env.REACT_APP_BACKEND_API,
-            withCredentials: true,
-            params: { search_term: val },
-         })
-         setSearchItems(response.data)
-      } catch (err) {
-         openAccount()
-      } finally {
-         setLoading(false)
-      }
+   const handleSearchError = async () => {
+      await logout()
+      openAccount()
    }
+
    return (
       <MainFrame
          title={<Title text="YouTube Mp3 Downloader" />}
-         searchBar={<SearchBar handleSearch={handleSearch} loading={loading} />}
+         searchBar={
+            <SearchBar
+               setResults={results => setSearchItems(results)}
+               setError={handleSearchError}
+            />
+         }
          searchResults={searchItems?.map(item => (
             <VideoCard
                key={item.id.videoId}

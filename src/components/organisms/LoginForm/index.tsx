@@ -1,10 +1,10 @@
+import { useEffect } from "react"
 import {
    RegisterOptions,
    SubmitHandler,
    useForm,
    UseFormProps,
 } from "react-hook-form"
-import axios from "axios"
 
 import { useAuth } from "../../../hooks"
 import { Input, Button } from "../../atoms"
@@ -60,15 +60,15 @@ const LoginForm: React.FC<LoginFormProps> = ({ openSignUp, close }) => {
       setError,
       formState: { errors, dirtyFields, isSubmitting },
    } = useForm<FormValues>(USE_FORM_CONFIG)
-   const { login } = useAuth()
+   const { login, error } = useAuth()
+
+   useEffect(() => {
+      error && setError("password", { message: error })
+   }, [error])
 
    const onSubmit: SubmitHandler<FormValues> = async (values, e) => {
-      try {
-         await login(values)
-         close()
-      } catch (err) {
-         setError("password", { message: "Wrong user or password" })
-      }
+      const success = await login(values)
+      if (success) close()
    }
 
    return (

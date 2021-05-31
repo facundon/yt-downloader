@@ -1,3 +1,4 @@
+import { useEffect } from "react"
 import {
    SubmitHandler,
    useForm,
@@ -63,17 +64,15 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ openLogin }) => {
       setError,
       formState: { errors, dirtyFields, isSubmitting },
    } = useForm<FormValues>(USE_FORM_CONFIG)
-   const { register: registerUser } = useAuth()
+   const { register: registerUser, error } = useAuth()
+
+   useEffect(() => {
+      error && setError("email", { message: error })
+   }, [error])
 
    const onSubmit: SubmitHandler<FormValues> = async values => {
-      try {
-         await registerUser(values)
-         openLogin()
-      } catch (err) {
-         setError("email", {
-            message: err.message,
-         })
-      }
+      const success = await registerUser(values)
+      if (success) openLogin()
    }
 
    return (

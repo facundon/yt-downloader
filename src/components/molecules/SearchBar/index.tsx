@@ -1,15 +1,29 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Input, Button } from "../../atoms"
+import { useYoutube } from "../../../hooks"
+
 import "./index.scss"
+import { YouTubeVideo } from "../../../types/youtube"
 
 const SearchBar = ({
-   handleSearch,
-   loading = false,
+   setResults,
+   setError,
 }: {
-   handleSearch: (value: string) => void
-   loading?: boolean
+   setResults: (results: YouTubeVideo[]) => void
+   setError?: (error: string) => void
 }) => {
    const [value, setValue] = useState("")
+   const { ytSearch, loading, error } = useYoutube()
+
+   useEffect(() => {
+      if (error !== "" && setError) setError(error)
+   }, [error])
+
+   const handleSearch = async (term: string) => {
+      if (!term) return
+      setResults(await ytSearch(term))
+   }
+
    return (
       <div className="search__wrapper">
          <Input

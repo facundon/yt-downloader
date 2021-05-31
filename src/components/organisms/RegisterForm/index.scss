@@ -3,4 +3,12 @@
       padding-bottom: 0 !important;
       font-size: 0.8em;
    }
+   & span:not(.material-icons-round) {
+      align-self: flex-start;
+      position: relative;
+      padding-top: 2em;
+      &::before {
+         width: 128%;
+      }
+   }
 }

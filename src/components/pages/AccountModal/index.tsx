@@ -21,7 +21,9 @@ const AccountModal: React.FC<AccountModalProps> = ({ open, onClose }) => {
    return (
       <Modal open={open} onClose={onClose} size={"400px"}>
          {user ? (
-            <Button onClick={() => logout()}>Logout</Button>
+            <Button onClick={logout} icon="logout">
+               Logout
+            </Button>
          ) : openSignUp ? (
             <RegisterForm openLogin={() => setOpenSignUp(false)} />
          ) : (

@@ -14,7 +14,12 @@ const OptionsBar: React.FC<OptionsBarProps> = ({ openAccount, openList }) => {
    return (
       <div className="options-wrapper">
          <p>{user ? user.name : "Login"}</p>
-         <Button icon="person" appareance="minimalist" onClick={openAccount} />
+         <Button
+            icon="person"
+            appareance="minimalist"
+            onClick={openAccount}
+            iconColor={user! && "#c0f7b5"}
+         />
          {user && (
             <Button
                icon="queue_music"
