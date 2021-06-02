@@ -1,22 +1,57 @@
 import { useCallback, useState } from "react"
-import { youtubeSearch } from "../services"
+import { _searchVideos, _getSong } from "../services"
 
 export default function useYoutube() {
-   const [state, setState] = useState({ loading: false, error: "" })
+   const [searchState, setSearchState] = useState({
+      searchLoading: false,
+      searchError: "",
+   })
+   const [downloadState, setDownloadState] = useState({
+      downloadLoading: false,
+      downloadError: "",
+   })
 
-   const ytSearch = useCallback(
+   const searchVideos = useCallback(
       async (term: string) => {
          try {
-            setState({ loading: true, error: "" })
-            const response = await youtubeSearch(term)
-            setState(prev => ({ loading: false, error: prev.error }))
-            return response.data
+            setSearchState({ searchLoading: true, searchError: "" })
+            const response = await _searchVideos(term)
+            setSearchState(prev => ({
+               searchLoading: false,
+               searchError: prev.searchError,
+            }))
+            return response
          } catch (err) {
-            setState({ loading: false, error: err.message || err })
+            setSearchState({
+               searchLoading: false,
+               searchError: err.message || err,
+            })
+            return null
          }
       },
-      [setState, state]
+      [setSearchState]
    )
 
-   return { ytSearch, ...state }
+   const downloadVideo = useCallback(
+      async (id: string, name: string) => {
+         try {
+            setDownloadState({ downloadLoading: true, downloadError: "" })
+            const response = await _getSong(id, name)
+            setDownloadState(prev => ({
+               downloadLoading: false,
+               downloadError: prev.downloadError,
+            }))
+            return response
+         } catch (err) {
+            setDownloadState({
+               downloadLoading: false,
+               downloadError: err.message || err,
+            })
+            return null
+         }
+      },
+      [setDownloadState]
+   )
+
+   return { searchVideos, downloadVideo, ...searchState, ...downloadState }
 }

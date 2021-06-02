@@ -1,3 +1,4 @@
+import { Loader } from "../../atoms"
 import "./index.scss"
 
 type MainFrameProps = {
@@ -5,6 +6,7 @@ type MainFrameProps = {
    searchBar: React.ReactElement
    searchResults: React.ReactElement[]
    options: React.ReactElement
+   loading: boolean
 }
 
 const MainFrame: React.FC<MainFrameProps> = ({
@@ -12,6 +14,7 @@ const MainFrame: React.FC<MainFrameProps> = ({
    searchBar,
    searchResults,
    options,
+   loading,
 }) => {
    return (
       <div className="container">
@@ -20,7 +23,11 @@ const MainFrame: React.FC<MainFrameProps> = ({
             {title}
             {searchBar}
          </div>
-         <div className="search-results">{searchResults}</div>
+         {loading ? (
+            <Loader />
+         ) : (
+            <div className="search-results">{searchResults}</div>
+         )}
       </div>
    )
 }

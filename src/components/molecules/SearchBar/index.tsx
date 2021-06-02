@@ -13,15 +13,17 @@ const SearchBar = ({
    setError?: (error: string) => void
 }) => {
    const [value, setValue] = useState("")
-   const { ytSearch, loading, error } = useYoutube()
+   const { searchVideos, searchLoading, searchError } = useYoutube()
 
    useEffect(() => {
-      if (error !== "" && setError) setError(error)
-   }, [error])
+      if (searchError !== "" && setError) setError(searchError)
+   }, [searchError, setError])
 
    const handleSearch = async (term: string) => {
       if (!term) return
-      setResults(await ytSearch(term))
+      const results = await searchVideos(term)
+      if (!results) return
+      setResults(results)
    }
 
    return (
@@ -32,7 +34,7 @@ const SearchBar = ({
             type="search"
             aria-label="Buscar videos"
             onKeyPress={e => e.key === "Enter" && handleSearch(value)}
-            loading={loading}
+            loading={searchLoading}
             fontSize="md"
             autoFocus
             required

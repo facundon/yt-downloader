@@ -5,7 +5,9 @@ type VideoCardProps = {
    thumbnail: { url: string; width: number; height: number }
    title: string
    duration: string
-   id?: string
+   id: string
+   handleDownload?: (id: string, title: string) => void
+   handleAddToList?: (id: string, title: string) => void
 }
 
 const VideoCard: React.FC<VideoCardProps> = ({
@@ -13,6 +15,8 @@ const VideoCard: React.FC<VideoCardProps> = ({
    thumbnail,
    duration,
    id,
+   handleDownload,
+   handleAddToList,
 }) => {
    return (
       <div className="card-wrapper">
@@ -29,8 +33,17 @@ const VideoCard: React.FC<VideoCardProps> = ({
             </div>
          </a>
          <div className="options">
-            <Button icon="playlist_add" circle appareance="secondary" />
-            <Button icon="download" appareance="subtle" />
+            <Button
+               icon="playlist_add"
+               circle
+               appareance="secondary"
+               onClick={() => handleAddToList && handleAddToList(id, title)}
+            />
+            <Button
+               icon="download"
+               appareance="subtle"
+               onClick={() => handleDownload && handleDownload(id, title)}
+            />
          </div>
       </div>
    )

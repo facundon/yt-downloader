@@ -68,7 +68,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ openLogin }) => {
 
    useEffect(() => {
       error && setError("email", { message: error })
-   }, [error])
+   }, [error, setError])
 
    const onSubmit: SubmitHandler<FormValues> = async values => {
       const success = await registerUser(values)

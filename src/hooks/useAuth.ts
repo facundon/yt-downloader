@@ -25,7 +25,7 @@ function useAuth() {
             return false
          }
       },
-      [setUser, setState, authRequest]
+      [setUser, setState]
    )
 
    const logout = useCallback(async () => {
@@ -38,7 +38,7 @@ function useAuth() {
       } catch (err) {
          setState({ loading: false, error: err.message })
       }
-   }, [setUser, setState, authRequest])
+   }, [setUser, setState])
 
    const register = useCallback(
       async (data: {}) => {
@@ -52,7 +52,7 @@ function useAuth() {
             return false
          }
       },
-      [setState, authRequest]
+      [setState]
    )
 
    return { user, login, logout, register, ...state }

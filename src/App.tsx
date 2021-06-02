@@ -1,19 +1,22 @@
-import { useState } from "react"
+import { useCallback, useState } from "react"
 import { AccountModal, MainPage } from "./components"
 import LoginContext from "./context/LoginContext"
 
 function App() {
    const [accountOpen, setAccountOpen] = useState(false)
    const [listOpen, setListOpen] = useState(false)
+
    return (
       <LoginContext>
          <MainPage
-            openAccount={() => setAccountOpen(true)}
+            openAccount={useCallback(() => {
+               setAccountOpen(true)
+            }, [setAccountOpen])}
             openList={() => setListOpen(true)}
          />
          <AccountModal
             open={accountOpen}
-            onClose={() => setAccountOpen(false)}
+            onClose={useCallback(() => setAccountOpen(false), [setAccountOpen])}
          />
       </LoginContext>
    )

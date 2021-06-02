@@ -64,7 +64,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ openSignUp, close }) => {
 
    useEffect(() => {
       error && setError("password", { message: error })
-   }, [error])
+   }, [error, setError])
 
    const onSubmit: SubmitHandler<FormValues> = async (values, e) => {
       const success = await login(values)

@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios"
+import { AxiosResponse } from "axios"
 import { baseRequest, ACTION_MAP } from "../config"
 import { User } from "../types/server"
 
