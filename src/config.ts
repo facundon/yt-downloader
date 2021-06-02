@@ -6,8 +6,13 @@ export const baseRequest = axios.create({
    baseURL: process.env.REACT_APP_BACKEND_API,
 })
 
-export const ACTION_MAP = new Map<ActionName, AxiosRequestConfig["method"]>([
+export const AUTH_ACTION_MAP = new Map<
+   ActionName,
+   AxiosRequestConfig["method"]
+>([
    ["login", "post"],
    ["logout", "get"],
    ["register", "post"],
 ])
+
+export const ytWatchUrl = "https://youtube.com/watch?v="

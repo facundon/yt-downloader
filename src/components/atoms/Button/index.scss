@@ -30,8 +30,14 @@
       &:focus-visible {
          outline: none;
       }
+      & > .loader {
+         height: inherit;
+         line-height: 1;
+         & > div {
+            margin: 0 0.05em;
+         }
+      }
    }
-
    &:hover,
    &:focus,
    &:focus-visible {
@@ -57,17 +63,10 @@
          filter: none;
       }
    }
-
    span {
       color: f.getColor("white", 200);
       padding: 0;
       margin: 0;
-      &.sm {
-         font-size: 1.5em;
-      }
-      &.md {
-         font-size: 2.6em;
-      }
    }
 
    &.primary {
@@ -161,5 +160,13 @@
       &:active {
          transform: translate(0);
       }
+   }
+   span.sm,
+   &.sm > button > .loader {
+      font-size: 1.5em;
+   }
+   span.md,
+   &.md > button > .loader {
+      font-size: 2.6em;
    }
 }

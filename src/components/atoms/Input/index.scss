@@ -75,7 +75,7 @@
       }
       &.loading::after {
          opacity: 1;
-         height: 0.2em;
+         height: 2px;
          background: linear-gradient(
             to left,
             f.getColor("orange", 200) 48%,

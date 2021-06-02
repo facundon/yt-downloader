@@ -15,7 +15,6 @@ type MainPageProps = {
 const MainPage: React.FC<MainPageProps> = ({ openAccount, openList }) => {
    const [searchItems, setSearchItems] = useState<YouTubeVideo[]>([])
    const { logout } = useAuth()
-   const { downloadVideo, downloadLoading } = useYoutube()
 
    const handleSearchError = useCallback(async () => {
       await logout()
@@ -24,7 +23,6 @@ const MainPage: React.FC<MainPageProps> = ({ openAccount, openList }) => {
 
    return (
       <MainFrame
-         loading={downloadLoading}
          title={<Title text="YouTube Mp3 Downloader" />}
          searchBar={
             <SearchBar
@@ -41,9 +39,6 @@ const MainPage: React.FC<MainPageProps> = ({ openAccount, openList }) => {
                   title={item.snippet.title}
                   duration={item.duration}
                   id={item.id.videoId}
-                  handleDownload={async (id, title) =>
-                     await downloadVideo(id, title)
-                  }
                />
             )
          })}

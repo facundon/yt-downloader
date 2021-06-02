@@ -2,8 +2,10 @@
 @use "../../../styles/variables" as *;
 
 .card-wrapper {
+   position: relative;
    display: inline-flex;
-   margin: 0.5em;
+   padding: 1px;
+   margin: 0.4em;
    height: auto;
    width: auto;
    overflow: hidden;
@@ -21,56 +23,102 @@
    }
    &:hover a,
    &:focus-within a {
-      border-radius: 0;
+      border-bottom-right-radius: 0;
+      border-top-right-radius: 0;
+      border-bottom-left-radius: inherit;
+      border-top-left-radius: inherit;
    }
-}
+   &::before {
+      content: "";
+      display: none;
+      position: absolute;
+      width: 210%;
+      height: 210%;
+      top: -55%;
+      left: -55%;
+      background: f.getColor("green", 600);
+      background: linear-gradient(
+         f.getColor("violet", 800) 0%,
+         f.getColor("green", 600) 45%,
+         f.getColor("white", 600) 46%,
+         f.getColor("white", 800) 49%,
+         f.getColor("violet", 800) 50%,
+         f.getColor("green", 600) 100%
+      );
+      z-index: -1;
+      animation: rotate 1.8s infinite reverse linear;
+   }
+   &.loading {
+      & > .options {
+         opacity: 1;
+         visibility: visible;
+      }
+      &::before {
+         display: block;
+      }
+   }
 
-.thumbnail {
-   position: relative;
-   background-color: f.getColor("black", 600);
-   border-radius: inherit;
-   transition: all ease-in 0.3s;
-   p {
-      margin: 0.2em 0.5em 0.5em;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: 300px;
+   .thumbnail {
+      position: relative;
+      background-color: f.getColor("black", 600);
+      border-radius: inherit;
+      transition: all ease-in 0.3s;
+      p {
+         margin: 0.2em 0.5em 0.5em;
+         white-space: nowrap;
+         overflow: hidden;
+         text-overflow: ellipsis;
+         max-width: 300px;
+      }
+      img {
+         border-bottom-left-radius: 0;
+         border-bottom-right-radius: 0;
+         border-top-left-radius: inherit;
+         border-top-right-radius: inherit;
+      }
+      &:hover {
+         border-radius: inherit;
+      }
    }
-   img {
-      border-top-right-radius: inherit;
-   }
-   &:hover {
-      border-radius: 0;
-   }
-}
 
-.options {
-   display: flex;
-   flex-direction: column;
-   justify-content: space-around;
-   align-items: center;
-   padding: 0 0.7em;
-   background-color: f.getColor("black", 600);
-   visibility: visible;
-   opacity: 1;
-   transition: all 0.3s cubic-bezier(0.55, 0.085, 0.68, 0.53);
-   &:hover,
-   &:focus-within {
-      opacity: 1;
+   .options {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+      padding: 0 0.7em;
+      background-color: f.getColor("black", 600);
       visibility: visible;
+      border-top-right-radius: inherit;
+      border-bottom-right-radius: inherit;
+      opacity: 1;
+      transition: all 0.3s cubic-bezier(0.55, 0.085, 0.68, 0.53);
+      &:hover,
+      &:focus-within {
+         opacity: 1;
+         visibility: visible;
+      }
+      @media (hover) {
+         opacity: 0;
+         visibility: hidden;
+      }
    }
-   @media (hover) {
-      opacity: 0;
-      visibility: hidden;
-   }
-}
 
-.duration {
-   background-color: f.getColor("black", 600);
-   border-radius: 0em 1em 0.1em 1em;
-   padding: 0.5em;
-   position: absolute;
-   top: -0.5em;
-   left: -0.5em;
+   .duration {
+      background-color: f.getColor("black", 600);
+      border-radius: 0.4em 1em 0.1em 1em;
+      padding: 0.5em;
+      position: absolute;
+      top: -0.15em;
+      left: -0.5em;
+   }
+
+   @keyframes rotate {
+      from {
+         transform: rotate(360deg);
+      }
+      to {
+         transform: rotate(0deg);
+      }
+   }
 }

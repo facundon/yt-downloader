@@ -1,3 +1,5 @@
+import { ytWatchUrl } from "../../../config"
+import { useYoutube } from "../../../hooks"
 import { Button } from "../../atoms"
 import "./index.scss"
 
@@ -6,8 +8,6 @@ type VideoCardProps = {
    title: string
    duration: string
    id: string
-   handleDownload?: (id: string, title: string) => void
-   handleAddToList?: (id: string, title: string) => void
 }
 
 const VideoCard: React.FC<VideoCardProps> = ({
@@ -15,12 +15,16 @@ const VideoCard: React.FC<VideoCardProps> = ({
    thumbnail,
    duration,
    id,
-   handleDownload,
-   handleAddToList,
 }) => {
+   const { downloadVideo, downloadLoading, downloadError } = useYoutube()
+   const downloadLoading2 = true
    return (
-      <div className="card-wrapper">
-         <a href={"https://youtube.com/watch?v=" + id}>
+      <div
+         className={`card-wrapper ${downloadLoading2 && "loading"} ${
+            downloadError && "error"
+         }`}
+      >
+         <a href={ytWatchUrl + id}>
             <div className="thumbnail">
                <img
                   alt={title}
@@ -37,12 +41,13 @@ const VideoCard: React.FC<VideoCardProps> = ({
                icon="playlist_add"
                circle
                appareance="secondary"
-               onClick={() => handleAddToList && handleAddToList(id, title)}
+               onClick={() => null}
             />
             <Button
                icon="download"
                appareance="subtle"
-               onClick={() => handleDownload && handleDownload(id, title)}
+               loading={downloadLoading}
+               onClick={() => downloadVideo(id, title)}
             />
          </div>
       </div>

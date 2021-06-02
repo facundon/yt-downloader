@@ -2,13 +2,14 @@
 
 .loader {
    height: 40px;
+   width: max-content;
    text-align: center;
 }
 
 .loader > div {
    background-color: rgb(206, 180, 218);
    height: 100%;
-   width: 4px;
+   width: 0.1em;
    display: inline-block;
    margin: 0 0.1em;
    border-radius: 30%;

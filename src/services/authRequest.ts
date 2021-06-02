@@ -1,5 +1,5 @@
 import { AxiosResponse } from "axios"
-import { baseRequest, ACTION_MAP } from "../config"
+import { baseRequest, AUTH_ACTION_MAP } from "../config"
 import { User } from "../types/server"
 
 export type ActionName = "login" | "logout" | "register"
@@ -9,7 +9,7 @@ export default async function authRequest(
    data: {} | undefined = undefined
 ) {
    const requestCfg = {
-      method: ACTION_MAP.get(action!),
+      method: AUTH_ACTION_MAP.get(action!),
       data: data,
       url: `/${action}`,
    }
