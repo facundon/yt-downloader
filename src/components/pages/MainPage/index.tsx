@@ -3,7 +3,7 @@ import { Title } from "../../atoms"
 import { OptionsBar, SearchBar, VideoCard } from "../../molecules"
 import { MainFrame } from "../../templates"
 
-import { useAuth, useYoutube } from "../../../hooks"
+import { useUser } from "../../../hooks"
 
 import { YouTubeVideo } from "../../../types/youtube"
 
@@ -14,7 +14,7 @@ type MainPageProps = {
 
 const MainPage: React.FC<MainPageProps> = ({ openAccount, openList }) => {
    const [searchItems, setSearchItems] = useState<YouTubeVideo[]>([])
-   const { logout } = useAuth()
+   const { logout } = useUser()
 
    const handleSearchError = useCallback(async () => {
       await logout()

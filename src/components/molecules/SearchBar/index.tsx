@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { Input, Button } from "../../atoms"
-import { useYoutube } from "../../../hooks"
+import { useUser, useYoutube } from "../../../hooks"
 
 import "./index.scss"
 import { YouTubeVideo } from "../../../types/youtube"
@@ -14,6 +14,7 @@ const SearchBar = ({
 }) => {
    const [value, setValue] = useState("")
    const { searchVideos, searchLoading, searchError } = useYoutube()
+   const { getFavs } = useUser()
 
    useEffect(() => {
       if (searchError !== "" && setError) setError(searchError)
@@ -24,6 +25,7 @@ const SearchBar = ({
       const results = await searchVideos(term)
       if (!results) return
       setResults(results)
+      getFavs()
    }
 
    return (

@@ -5,7 +5,7 @@ import {
    UseFormProps,
    RegisterOptions,
 } from "react-hook-form"
-import { useAuth } from "../../../hooks"
+import { useUser } from "../../../hooks"
 import { Button, Input } from "../../atoms"
 import { EMAIL_REGEX } from "../LoginForm"
 
@@ -64,7 +64,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ openLogin }) => {
       setError,
       formState: { errors, dirtyFields, isSubmitting },
    } = useForm<FormValues>(USE_FORM_CONFIG)
-   const { register: registerUser, error } = useAuth()
+   const { register: registerUser, error } = useUser()
 
    useEffect(() => {
       error && setError("email", { message: error })

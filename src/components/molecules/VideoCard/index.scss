@@ -22,7 +22,9 @@
       }
    }
    &:hover a,
-   &:focus-within a {
+   &:focus-within a,
+   &.error a,
+   &.loading a {
       border-bottom-right-radius: 0;
       border-top-right-radius: 0;
       border-bottom-left-radius: inherit;
@@ -48,13 +50,28 @@
       z-index: -1;
       animation: rotate 1.8s infinite reverse linear;
    }
-   &.loading {
+   &.loading,
+   &.error {
       & > .options {
          opacity: 1;
          visibility: visible;
       }
       &::before {
          display: block;
+      }
+   }
+   &.error {
+      &::before {
+         background: f.getColor("green", 600);
+         background: linear-gradient(
+            f.getColor("red", 600) 0%,
+            f.getColor("pink", 800) 45%,
+            f.getColor("white", 600) 46%,
+            f.getColor("white", 800) 49%,
+            f.getColor("red", 600) 50%,
+            f.getColor("pink", 800) 100%
+         );
+         animation-duration: 6s;
       }
    }
 
@@ -109,7 +126,7 @@
       border-radius: 0.4em 1em 0.1em 1em;
       padding: 0.5em;
       position: absolute;
-      top: -0.15em;
+      top: -0.2em;
       left: -0.5em;
    }
 

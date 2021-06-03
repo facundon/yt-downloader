@@ -1,5 +1,5 @@
 import { MouseEvent } from "react"
-import { useAuth } from "../../../hooks"
+import { useUser } from "../../../hooks"
 import { Button } from "../../atoms"
 import "./index.scss"
 
@@ -9,7 +9,7 @@ type OptionsBarProps = {
 }
 
 const OptionsBar: React.FC<OptionsBarProps> = ({ openAccount, openList }) => {
-   const { user } = useAuth()
+   const { user } = useUser()
 
    return (
       <div className="options-wrapper">

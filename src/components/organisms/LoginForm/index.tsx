@@ -6,7 +6,7 @@ import {
    UseFormProps,
 } from "react-hook-form"
 
-import { useAuth } from "../../../hooks"
+import { useUser } from "../../../hooks"
 import { Input, Button } from "../../atoms"
 import Google from "../../../icons/google.svg"
 import Facebook from "../../../icons/facebook.svg"
@@ -60,7 +60,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ openSignUp, close }) => {
       setError,
       formState: { errors, dirtyFields, isSubmitting },
    } = useForm<FormValues>(USE_FORM_CONFIG)
-   const { login, error } = useAuth()
+   const { login, error } = useUser()
 
    useEffect(() => {
       error && setError("password", { message: error })

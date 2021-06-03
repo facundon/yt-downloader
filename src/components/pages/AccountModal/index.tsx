@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react"
-import { useAuth } from "../../../hooks"
+import { useState } from "react"
+import { useUser } from "../../../hooks"
 import { Button } from "../../atoms"
 import { Modal } from "../../molecules"
 import { LoginForm, RegisterForm } from "../../organisms"
@@ -11,12 +11,7 @@ type AccountModalProps = {
 
 const AccountModal: React.FC<AccountModalProps> = ({ open, onClose }) => {
    const [openSignUp, setOpenSignUp] = useState(false)
-
-   const { user, logout } = useAuth()
-
-   useEffect(() => {
-      setTimeout(() => setOpenSignUp(false), 150)
-   }, [onClose])
+   const { user, logout } = useUser()
 
    return (
       <Modal open={open} onClose={onClose} size={"400px"}>

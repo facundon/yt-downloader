@@ -6,6 +6,7 @@ type ModalProps = {
    open: boolean
    size?: string
    locked?: boolean
+   sideModal?: boolean
    onClose: () => void
 }
 
@@ -15,6 +16,7 @@ const Modal: React.FC<ModalProps> = ({
    size,
    onClose,
    locked = false,
+   sideModal = false,
 }) => {
    const [active, setActive] = useState(false)
    const backdrop = useRef<HTMLDivElement>(null)
@@ -63,9 +65,14 @@ const Modal: React.FC<ModalProps> = ({
             <Portal>
                <div
                   ref={backdrop}
-                  className={`backdrop ${active && open && "active"}`}
+                  className={`backdrop ${active && open && "active"} ${
+                     sideModal && "side"
+                  }`}
                >
-                  <div style={{ width: size }} className="modal-content">
+                  <div
+                     style={{ width: size }}
+                     className={`modal-content ${sideModal && "side"}`}
+                  >
                      {children}
                   </div>
                </div>
