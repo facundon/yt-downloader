@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { ytWatchUrl } from "../../../config"
-import { useUser, useYoutube } from "../../../hooks"
+import { useFavs, useUser, useYoutube } from "../../../hooks"
 import { Button } from "../../atoms"
 import "./index.scss"
 
@@ -18,13 +18,14 @@ const VideoCard: React.FC<VideoCardProps> = ({
    id,
 }) => {
    const { downloadVideo, downloadLoading, downloadError } = useYoutube()
-   const { user, addFav, loading } = useUser()
+   const { user, updateUserContext } = useUser()
+   const { addFav, loading } = useFavs()
    const [isFav, setIsFav] = useState(true)
 
    useEffect(() => {
       const fav = user?.videos.find(video => video.videoId === id)
       setIsFav(!!fav)
-   }, [user?.videos])
+   }, [user?.videos, id])
 
    return (
       <div
@@ -53,7 +54,10 @@ const VideoCard: React.FC<VideoCardProps> = ({
                disabled={isFav}
                onClick={async () => {
                   const result = await addFav(id, title)
-                  result && setIsFav(true)
+                  if (result) {
+                     setIsFav(true)
+                     updateUserContext({ videos: result })
+                  }
                }}
             />
             <Button

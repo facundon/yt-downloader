@@ -4,6 +4,7 @@ export type APIRoutes =
    | "/login"
    | "/logout"
    | "/register"
+   | "/user"
    | "/user/favorites"
    | "/api/youtube"
    | "/api/converter"

@@ -1,3 +1,15 @@
-li {
-   display: flex;
+ul.fav-list {
+   padding: 0;
+   margin: 0;
+   li {
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 1em 0;
+   }
+   p {
+      margin: 1em 0;
+      font-size: 1.16em;
+   }
 }

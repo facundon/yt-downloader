@@ -7,6 +7,7 @@ type ModalProps = {
    size?: string
    locked?: boolean
    sideModal?: boolean
+   className?: string
    onClose: () => void
 }
 
@@ -14,6 +15,7 @@ const Modal: React.FC<ModalProps> = ({
    children,
    open,
    size,
+   className,
    onClose,
    locked = false,
    sideModal = false,
@@ -71,7 +73,9 @@ const Modal: React.FC<ModalProps> = ({
                >
                   <div
                      style={{ width: size }}
-                     className={`modal-content ${sideModal && "side"}`}
+                     className={`modal-content ${
+                        sideModal && "side"
+                     } ${className}`}
                   >
                      {children}
                   </div>

@@ -1,0 +1,17 @@
+@use "../../../styles/functions" as f;
+
+.fav-modal {
+   overflow-y: auto;
+   h2 {
+      width: 100%;
+      align-self: flex-end;
+      text-align: end;
+      margin-bottom: 0.2em;
+      padding: 0 0.2em 0.2em;
+      border-bottom: 1px solid f.getColor("orange", 200, 0.8);
+   }
+   justify-content: space-between !important;
+   .fav-list {
+      margin-block-end: auto;
+   }
+}

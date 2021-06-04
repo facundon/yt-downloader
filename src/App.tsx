@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { AccountModal, MainPage } from "./components"
 import { FavModal } from "./components/pages"
 import LoginContext from "./context/LoginContext"
@@ -6,6 +6,11 @@ import LoginContext from "./context/LoginContext"
 function App() {
    const [accountOpen, setAccountOpen] = useState(false)
    const [favListOpen, setFavListOpen] = useState(false)
+
+   useEffect(() => {
+      const ovrflwState = favListOpen || accountOpen ? "hidden" : "auto"
+      document.querySelector("body")!.style.overflow = ovrflwState
+   }, [favListOpen, accountOpen])
 
    return (
       <LoginContext>

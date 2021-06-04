@@ -1,11 +1,15 @@
 import { useCallback, useContext, useState } from "react"
 import { apiRequest } from "../services"
 import { UserContext } from "../context/LoginContext"
-import { User, Video } from "../types/server"
+import { User } from "../types/server"
 
 function useUser() {
    const { user, setUser } = useContext(UserContext)
    const [state, setState] = useState({ loading: false, error: "" })
+
+   const updateUserContext = (fields: Partial<User>) => {
+      setUser!(prev => ({ ...prev!, ...fields }))
+   }
 
    const login = useCallback(
       async (data: {}) => {
@@ -60,44 +64,32 @@ function useUser() {
       [setState]
    )
 
-   const addFav = useCallback(
-      async (id: string, title: string) => {
-         try {
-            setState({ loading: true, error: "" })
-            const response: Video[] = await apiRequest(
-               "put",
-               "/user/favorites",
-               { id, title }
-            )
-            setState(prev => ({ loading: false, error: prev.error }))
-            return response
-         } catch (err) {
-            setState({
-               loading: false,
-               error: err.message || "Error while adding favorite",
-            })
-            return false
-         }
-      },
-      [setState]
-   )
-
-   const getFavs = useCallback(async () => {
+   const getUser = useCallback(async () => {
       try {
          setState({ loading: true, error: "" })
-         const response: Video[] = await apiRequest("get", "/user/favorites")
+         const response = await apiRequest("get", "/user")
+         setUser!(response)
+         localStorage.setItem("user", JSON.stringify(response))
          setState(prev => ({ loading: false, error: prev.error }))
-         setUser!(prev => ({ ...prev!, videos: response }))
+         return response
       } catch (err) {
          setState({
             loading: false,
-            error: err.message || "Error while adding favorite",
+            error: err.message || "Error in register",
          })
          return false
       }
-   }, [setState])
+   }, [setState, setUser])
 
-   return { user, addFav, getFavs, login, logout, register, ...state }
+   return {
+      user,
+      updateUserContext,
+      getUser,
+      login,
+      logout,
+      register,
+      ...state,
+   }
 }
 
 export default useUser
