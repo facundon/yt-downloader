@@ -15,4 +15,8 @@
    align-items: center;
    justify-content: space-evenly;
    flex-wrap: wrap;
+   & > h2 {
+      color: f.getColor("red", 400, 0.8);
+      margin-left: 50vh;
+   }
 }

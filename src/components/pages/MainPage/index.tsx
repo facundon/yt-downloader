@@ -14,13 +14,17 @@ type MainPageProps = {
 
 const MainPage: React.FC<MainPageProps> = ({ openAccount, openList }) => {
    const [searchItems, setSearchItems] = useState<YouTubeVideo[]>([])
+   const [searchError, setSearchError] = useState("")
    const { logout } = useUser()
 
    const handleSearchError = useCallback(
       async (err: string) => {
-         // TODO: check if error correspond to be logged in or not
-         await logout()
-         openAccount()
+         if (err === "You are not logged in") {
+            await logout()
+            openAccount()
+         } else {
+            setSearchError(err)
+         }
       },
       [openAccount, logout]
    )
@@ -34,18 +38,24 @@ const MainPage: React.FC<MainPageProps> = ({ openAccount, openList }) => {
                setError={handleSearchError}
             />
          }
-         searchResults={searchItems?.map(item => {
-            if (item.duration === "0:00") return <></>
-            return (
-               <VideoCard
-                  key={item.id.videoId}
-                  thumbnail={item.snippet.thumbnails.medium}
-                  title={item.snippet.title}
-                  duration={item.duration}
-                  id={item.id.videoId}
-               />
+         searchResults={
+            !searchError ? (
+               searchItems?.map(item => {
+                  if (item.duration === "0:00") return <></>
+                  return (
+                     <VideoCard
+                        key={item.id.videoId}
+                        thumbnail={item.snippet.thumbnails.medium}
+                        title={item.snippet.title}
+                        duration={item.duration}
+                        id={item.id.videoId}
+                     />
+                  )
+               })
+            ) : (
+               <h2>{searchError}</h2>
             )
-         })}
+         }
          options={<OptionsBar openAccount={openAccount} openList={openList} />}
       />
    )

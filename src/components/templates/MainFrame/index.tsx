@@ -3,7 +3,7 @@ import "./index.scss"
 type MainFrameProps = {
    title: React.ReactElement
    searchBar: React.ReactElement
-   searchResults: React.ReactElement[]
+   searchResults: React.ReactElement[] | React.ReactElement
    options: React.ReactElement
    loading?: boolean
 }
