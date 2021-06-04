@@ -1,7 +1,24 @@
 @use "../../../styles/functions" as f;
 
+.loader-wrapper {
+   &.column {
+      flex-direction: column;
+      & > p {
+         margin: 0 0 0.5em 0;
+      }
+   }
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   height: inherit;
+   > p {
+      margin: 0 0.5em 0 0;
+      font-size: inherit;
+   }
+}
+
 .loader {
-   height: 40px;
+   height: inherit;
    width: max-content;
    text-align: center;
 }
@@ -11,7 +28,7 @@
    height: 100%;
    width: 0.1em;
    display: inline-block;
-   margin: 0 0.1em;
+   margin: 0 0.2em;
 
    -webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;
    animation: sk-stretchdelay 1.2s infinite ease-in-out;

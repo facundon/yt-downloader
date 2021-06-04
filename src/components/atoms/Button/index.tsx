@@ -10,12 +10,14 @@ interface BtnProps extends ButtonHTMLAttributes<HTMLButtonElement> {
    size?: "sm" | "md"
    disabled?: boolean
    loading?: boolean
+   loadingText?: string
 }
 
 const Button = ({
    children,
    icon,
    iconColor,
+   loadingText,
    appareance = "primary",
    size = "sm",
    circle = false,
@@ -34,7 +36,7 @@ const Button = ({
       >
          <button {...props} tabIndex={-1} disabled={disabled || loading}>
             {loading ? (
-               <Loader />
+               <Loader text={loadingText} orientation="row" />
             ) : (
                <>
                   {icon && (

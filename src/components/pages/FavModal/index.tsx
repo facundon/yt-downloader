@@ -36,11 +36,8 @@ const FavModal: React.FC<FavModalProps> = ({ open, onClose }) => {
          sideModal
       >
          <h2>Favorites</h2>
-         {true || downloadLoading ? (
-            <div className="loader-wrapper">
-               <h3>Downloading...</h3>
-               <Loader />
-            </div>
+         {loading || downloadLoading ? (
+            <Loader text="Downloading..." height="10em" />
          ) : error || downloadError ? (
             <p>{error || downloadError}</p>
          ) : (
@@ -50,6 +47,7 @@ const FavModal: React.FC<FavModalProps> = ({ open, onClose }) => {
             icon="download"
             appareance="secondary"
             loading={downloadLoading}
+            loadingText="Downloading"
             disabled={!user?.videos.length || loading}
             onClick={handleDownload}
          >
