@@ -2,6 +2,22 @@
 
 .fav-modal {
    overflow-y: auto;
+   justify-content: space-between !important;
+   .loader-wrapper {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      > .loader {
+         align-self: center;
+         height: 10em;
+         & > div {
+            width: 0.5em;
+         }
+      }
+   }
+   > .btn-wrapper .loader {
+      height: 1em;
+   }
    h2 {
       width: 100%;
       align-self: flex-end;
@@ -10,8 +26,11 @@
       padding: 0 0.2em 0.2em;
       border-bottom: 1px solid f.getColor("orange", 200, 0.8);
    }
-   justify-content: space-between !important;
    .fav-list {
       margin-block-end: auto;
+   }
+   p {
+      margin-block-end: 100%;
+      font-size: 1.16em;
    }
 }

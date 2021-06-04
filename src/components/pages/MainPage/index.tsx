@@ -16,10 +16,14 @@ const MainPage: React.FC<MainPageProps> = ({ openAccount, openList }) => {
    const [searchItems, setSearchItems] = useState<YouTubeVideo[]>([])
    const { logout } = useUser()
 
-   const handleSearchError = useCallback(async () => {
-      await logout()
-      openAccount()
-   }, [openAccount, logout])
+   const handleSearchError = useCallback(
+      async (err: string) => {
+         // TODO: check if error correspond to be logged in or not
+         await logout()
+         openAccount()
+      },
+      [openAccount, logout]
+   )
 
    return (
       <MainFrame

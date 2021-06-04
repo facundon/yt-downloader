@@ -1,11 +1,11 @@
-import { useCallback, useContext, useState } from "react"
+import { useCallback, useState } from "react"
+import { useUser } from "."
 import { apiRequest } from "../services"
-import { UserContext } from "../context/LoginContext"
 import { Video } from "../types/server"
 
 export default function useFavs() {
-   const { user, setUser } = useContext(UserContext)
    const [state, setState] = useState({ loading: false, error: "" })
+   const { user, updateUserContext } = useUser()
 
    const addFav = useCallback(
       async (id: string, title: string) => {
@@ -13,13 +13,13 @@ export default function useFavs() {
             setState({ loading: true, error: "" })
             const response: Video[] = await apiRequest(
                "put",
-               "/user/favorites",
+               `/user/favorites/${id}`,
                {
-                  id,
                   title,
                }
             )
             setState(prev => ({ loading: false, error: prev.error }))
+            updateUserContext({ videos: response })
             return response
          } catch (err) {
             setState({
@@ -29,31 +29,17 @@ export default function useFavs() {
             return false
          }
       },
-      [setState]
+      [setState, updateUserContext]
    )
 
-   const getFavs = useCallback(async () => {
-      try {
-         setState({ loading: true, error: "" })
-         const response: Video[] = await apiRequest("get", "/user/favorites")
-         setState(prev => ({ loading: false, error: prev.error }))
-         setUser!(prev => ({ ...prev!, videos: response }))
-      } catch (err) {
-         setState({
-            loading: false,
-            error: err.message || "Error while adding favorite",
-         })
-      }
-   }, [setState, setUser])
-
    const delFav = useCallback(
-      async (id: number) => {
+      async (id?: number) => {
          try {
             setState({ loading: true, error: "" })
-            await apiRequest("delete", "/user/favorites", {
-               id,
-            })
+            await apiRequest("delete", `/user/favorites/${id}`)
             setState(prev => ({ loading: false, error: prev.error }))
+            const nextVideos = user?.videos.filter(video => video.id !== id)
+            updateUserContext({ videos: id ? nextVideos : [] })
          } catch (err) {
             setState({
                loading: false,
@@ -61,8 +47,8 @@ export default function useFavs() {
             })
          }
       },
-      [setState]
+      [setState, updateUserContext, user?.videos]
    )
 
-   return { getFavs, addFav, delFav, ...state }
+   return { addFav, delFav, ...state }
 }

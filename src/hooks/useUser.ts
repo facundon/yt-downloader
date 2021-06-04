@@ -56,7 +56,7 @@ function useUser() {
          } catch (err) {
             setState({
                loading: false,
-               error: err.message || "Error in register",
+               error: err.message || "Error while registering",
             })
             return false
          }
@@ -67,7 +67,7 @@ function useUser() {
    const getUser = useCallback(async () => {
       try {
          setState({ loading: true, error: "" })
-         const response = await apiRequest("get", "/user")
+         const response: User = await apiRequest("get", "/user")
          setUser!(response)
          localStorage.setItem("user", JSON.stringify(response))
          setState(prev => ({ loading: false, error: prev.error }))
@@ -75,7 +75,7 @@ function useUser() {
       } catch (err) {
          setState({
             loading: false,
-            error: err.message || "Error in register",
+            error: err.message || "Error while fetching user data",
          })
          return false
       }

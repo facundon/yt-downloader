@@ -34,7 +34,7 @@ export async function _getSong(id: string, name: string) {
       const a = document.createElement("a")
       a.style.display = "none"
       a.href = url
-      a.download = name + ".mp3"
+      a.download = name + (id === "all" ? ".zip" : ".mp3")
       document.body.appendChild(a)
       a.click()
       window.URL.revokeObjectURL(url)

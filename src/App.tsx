@@ -8,8 +8,10 @@ function App() {
    const [favListOpen, setFavListOpen] = useState(false)
 
    useEffect(() => {
-      const ovrflwState = favListOpen || accountOpen ? "hidden" : "auto"
-      document.querySelector("body")!.style.overflow = ovrflwState
+      setTimeout(() => {
+         const ovrflwState = favListOpen || accountOpen ? "hidden" : "auto"
+         document.querySelector("body")!.style.overflow = ovrflwState
+      }, 150)
    }, [favListOpen, accountOpen])
 
    return (

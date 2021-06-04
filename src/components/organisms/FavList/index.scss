@@ -7,6 +7,9 @@ ul.fav-list {
       justify-content: space-between;
       align-items: center;
       margin: 1em 0;
+      > .btn-wrapper {
+         margin-left: 0.6em;
+      }
    }
    p {
       margin: 1em 0;

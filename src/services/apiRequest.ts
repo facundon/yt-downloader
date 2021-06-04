@@ -8,6 +8,7 @@ export type APIRoutes =
    | "/user/favorites"
    | "/api/youtube"
    | "/api/converter"
+   | string
 
 export default async function apiRequest(
    method: AxiosRequestConfig["method"],

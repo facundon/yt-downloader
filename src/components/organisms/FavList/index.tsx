@@ -1,4 +1,4 @@
-import { useFavs, useUser } from "../../../hooks"
+import { useFavs } from "../../../hooks"
 import { Video } from "../../../types/server"
 import { Button } from "../../atoms"
 
@@ -6,13 +6,6 @@ import "./index.scss"
 
 const FavList = ({ videos }: { videos: Video[] | undefined }) => {
    const { delFav, loading } = useFavs()
-   const { user, updateUserContext } = useUser()
-
-   const handleRemove = async (id: number) => {
-      await delFav(id)
-      const nextVideos = user?.videos.filter(video => video.id !== id)
-      updateUserContext({ videos: nextVideos })
-   }
 
    return (
       <ul className="fav-list">
@@ -26,7 +19,7 @@ const FavList = ({ videos }: { videos: Video[] | undefined }) => {
                      icon="delete"
                      appareance="minimalist"
                      loading={loading}
-                     onClick={() => handleRemove(video.id)}
+                     onClick={() => delFav(video.id)}
                   />
                </li>
             ))

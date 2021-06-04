@@ -18,7 +18,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
    id,
 }) => {
    const { downloadVideo, downloadLoading, downloadError } = useYoutube()
-   const { user, updateUserContext } = useUser()
+   const { user } = useUser()
    const { addFav, loading } = useFavs()
    const [isFav, setIsFav] = useState(true)
 
@@ -56,7 +56,6 @@ const VideoCard: React.FC<VideoCardProps> = ({
                   const result = await addFav(id, title)
                   if (result) {
                      setIsFav(true)
-                     updateUserContext({ videos: result })
                   }
                }}
             />

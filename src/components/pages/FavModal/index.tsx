@@ -1,6 +1,6 @@
 import { useEffect } from "react"
-import { useUser, useYoutube } from "../../../hooks"
-import { Button } from "../../atoms"
+import { useFavs, useUser, useYoutube } from "../../../hooks"
+import { Button, Loader } from "../../atoms"
 import { Modal } from "../../molecules"
 import { FavList } from "../../organisms"
 
@@ -11,13 +11,21 @@ type FavModalProps = {
    onClose: () => void
 }
 
-const AccountModal: React.FC<FavModalProps> = ({ open, onClose }) => {
-   const { user, getUser } = useUser()
-   const { downloadLoading } = useYoutube()
+const FavModal: React.FC<FavModalProps> = ({ open, onClose }) => {
+   const { user, getUser, loading, error } = useUser()
+   const { downloadVideo, downloadLoading, downloadError } = useYoutube()
+   const { delFav } = useFavs()
 
    useEffect(() => {
       getUser()
-   }, [])
+   }, [getUser])
+
+   const handleDownload = async () => {
+      const success = await downloadVideo("all", "YtDl Favorites")
+      if (success) {
+         delFav()
+      }
+   }
 
    return (
       <Modal
@@ -28,12 +36,22 @@ const AccountModal: React.FC<FavModalProps> = ({ open, onClose }) => {
          sideModal
       >
          <h2>Favorites</h2>
-         <FavList videos={user?.videos} />
+         {true || downloadLoading ? (
+            <div className="loader-wrapper">
+               <h3>Downloading...</h3>
+               <Loader />
+            </div>
+         ) : error || downloadError ? (
+            <p>{error || downloadError}</p>
+         ) : (
+            <FavList videos={user?.videos} />
+         )}
          <Button
             icon="download"
             appareance="secondary"
             loading={downloadLoading}
-            disabled={!user?.videos.length}
+            disabled={!user?.videos.length || loading}
+            onClick={handleDownload}
          >
             Downlaod All
          </Button>
@@ -41,4 +59,4 @@ const AccountModal: React.FC<FavModalProps> = ({ open, onClose }) => {
    )
 }
 
-export default AccountModal
+export default FavModal
