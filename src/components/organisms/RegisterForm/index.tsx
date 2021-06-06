@@ -79,9 +79,11 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ openLogin }) => {
    const watchPassword = watch("password")
 
    useEffect(() => {
-      error && setError("email", { message: error })
-      setFocus("email")
-   }, [error, setError])
+      if (error) {
+         setError("email", { message: error })
+         setFocus("email")
+      }
+   }, [error, setError, setFocus])
 
    const onSubmit: SubmitHandler<FormValues> = async values => {
       if (values.password === values.repPassword) {

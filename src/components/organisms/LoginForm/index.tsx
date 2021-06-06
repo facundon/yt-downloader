@@ -65,9 +65,11 @@ const LoginForm: React.FC<LoginFormProps> = ({ openSignUp, close }) => {
    const { login, error } = useUser()
 
    useEffect(() => {
-      error && setError("password", { message: error })
-      setFocus("password")
-   }, [error, setError])
+      if (error) {
+         setError("password", { message: error })
+         setFocus("password")
+      }
+   }, [error, setError, setFocus])
 
    const onSubmit: SubmitHandler<FormValues> = async (values, e) => {
       const success = await login(values)
