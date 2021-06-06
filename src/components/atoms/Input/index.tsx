@@ -1,4 +1,9 @@
-import { DetailedHTMLProps, FocusEvent, InputHTMLAttributes } from "react"
+import {
+   DetailedHTMLProps,
+   FocusEvent,
+   forwardRef,
+   InputHTMLAttributes,
+} from "react"
 import "./index.scss"
 
 interface InputProps
@@ -11,27 +16,24 @@ interface InputProps
    icon?: string
 }
 
-const Input: React.FC<InputProps> = ({
-   onChange,
-   icon,
-   loading = false,
-   fontSize = "sm",
-   ...props
-}) => {
-   const handleFocus = (e: FocusEvent<HTMLInputElement>) => {
-      e.target.parentElement?.toggleAttribute("focus")
+const Input = forwardRef<HTMLInputElement, InputProps>(
+   ({ onChange, icon, loading = false, fontSize = "sm", ...props }, ref) => {
+      const handleFocus = (e: FocusEvent<HTMLInputElement>) => {
+         e.target.parentElement?.toggleAttribute("focus")
+      }
+      return (
+         <div className={`input__wrapper ${loading && "loading"} ${fontSize}`}>
+            {icon && <span className="material-icons-round">{icon}</span>}
+            <input
+               onChange={e => onChange && onChange(e)}
+               onFocus={handleFocus}
+               onBlur={handleFocus}
+               ref={ref}
+               {...props}
+            />
+         </div>
+      )
    }
-   return (
-      <div className={`input__wrapper ${loading && "loading"} ${fontSize}`}>
-         {icon && <span className="material-icons-round">{icon}</span>}
-         <input
-            onChange={e => onChange && onChange(e)}
-            onFocus={handleFocus}
-            onBlur={handleFocus}
-            {...props}
-         />
-      </div>
-   )
-}
+)
 
 export default Input

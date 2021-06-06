@@ -5,7 +5,6 @@ type MainFrameProps = {
    searchBar: React.ReactElement
    searchResults: React.ReactElement[] | React.ReactElement
    options: React.ReactElement
-   loading?: boolean
 }
 
 const MainFrame: React.FC<MainFrameProps> = ({
@@ -13,7 +12,6 @@ const MainFrame: React.FC<MainFrameProps> = ({
    searchBar,
    searchResults,
    options,
-   loading,
 }) => {
    return (
       <div className="container">

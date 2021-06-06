@@ -51,6 +51,7 @@ const validationMap: Record<keyof FormValues, RegisterOptions> = {
 
 const USE_FORM_CONFIG: UseFormProps<FormValues> = {
    mode: "onTouched",
+   defaultValues,
 }
 
 const LoginForm: React.FC<LoginFormProps> = ({ openSignUp, close }) => {
@@ -58,12 +59,14 @@ const LoginForm: React.FC<LoginFormProps> = ({ openSignUp, close }) => {
       register,
       handleSubmit,
       setError,
+      setFocus,
       formState: { errors, dirtyFields, isSubmitting },
    } = useForm<FormValues>(USE_FORM_CONFIG)
    const { login, error } = useUser()
 
    useEffect(() => {
       error && setError("password", { message: error })
+      setFocus("password")
    }, [error, setError])
 
    const onSubmit: SubmitHandler<FormValues> = async (values, e) => {
@@ -77,7 +80,6 @@ const LoginForm: React.FC<LoginFormProps> = ({ openSignUp, close }) => {
             <h2>Log In</h2>
             <div className="login-wrapper">
                <Input
-                  defaultValue={defaultValues.email}
                   icon="alternate_email"
                   placeholder="Email"
                   type="email"
@@ -86,7 +88,6 @@ const LoginForm: React.FC<LoginFormProps> = ({ openSignUp, close }) => {
                />
                {errors.email && <p className="error">{errors.email.message}</p>}
                <Input
-                  defaultValue={defaultValues.password}
                   icon="vpn_key"
                   placeholder="Password"
                   type="password"
@@ -112,10 +113,12 @@ const LoginForm: React.FC<LoginFormProps> = ({ openSignUp, close }) => {
                </Button>
                <p>Or log in using</p>
                <div className="social-media">
-                  <a href="#">
+                  <a href={`${process.env.REACT_APP_BACKEND_API}/login/google`}>
                      <img src={Google} alt="Sign in with google" />
                   </a>
-                  <a href="#">
+                  <a
+                     href={`${process.env.REACT_APP_BACKEND_API}/login/facebook`}
+                  >
                      <img src={Facebook} alt="Sign in with facebook" />
                   </a>
                </div>

@@ -3,7 +3,7 @@
 .container {
    margin-left: auto;
    margin-right: auto;
-   max-width: 1350px;
+   max-width: 1599px;
 }
 
 .header {
@@ -16,7 +16,7 @@
    justify-content: space-evenly;
    flex-wrap: wrap;
    & > h2 {
-      color: f.getColor("red", 400, 0.8);
-      margin-left: 50vh;
+      color: f.getColor("pink", 600);
+      margin-left: 5vh;
    }
 }

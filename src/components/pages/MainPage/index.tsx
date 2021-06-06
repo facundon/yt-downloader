@@ -22,9 +22,8 @@ const MainPage: React.FC<MainPageProps> = ({ openAccount, openList }) => {
          if (err === "You are not logged in") {
             await logout()
             openAccount()
-         } else {
-            setSearchError(err)
          }
+         setSearchError(err)
       },
       [openAccount, logout]
    )

@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react"
-import { _searchVideos, _getSong, apiRequest } from "../services"
+import { _searchVideos, _getSong } from "../services"
 
 export default function useYoutube() {
    const [searchState, setSearchState] = useState({
@@ -24,7 +24,7 @@ export default function useYoutube() {
          } catch (err) {
             setSearchState({
                searchLoading: false,
-               searchError: err.message || err,
+               searchError: err.message || "Error while searching for videos",
             })
             return null
          }
@@ -45,24 +45,13 @@ export default function useYoutube() {
          } catch (err) {
             setDownloadState({
                downloadLoading: false,
-               downloadError: err.message || err,
+               downloadError: err.message || "Error while downloading video",
             })
             return false
          }
       },
       [setDownloadState]
    )
-
-   const downloadAllFavs = async () => {
-      try {
-         setDownloadState({ downloadLoading: true, downloadError: "" })
-      } catch (err) {
-         setDownloadState({
-            downloadLoading: false,
-            downloadError: err.message || err,
-         })
-      }
-   }
 
    return { searchVideos, downloadVideo, ...searchState, ...downloadState }
 }

@@ -21,6 +21,13 @@ type FormValues = {
    repPassword: string
 }
 
+const defaultValues: FormValues = {
+   name: "",
+   email: "",
+   password: "",
+   repPassword: "",
+}
+
 const validationMap: Record<keyof FormValues, RegisterOptions> = {
    name: {
       required: { value: true, message: "Please enter your name" },
@@ -55,6 +62,7 @@ const validationMap: Record<keyof FormValues, RegisterOptions> = {
 
 const USE_FORM_CONFIG: UseFormProps<FormValues> = {
    mode: "onTouched",
+   defaultValues,
 }
 
 const RegisterForm: React.FC<RegisterFormProps> = ({ openLogin }) => {
@@ -62,17 +70,25 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ openLogin }) => {
       register,
       handleSubmit,
       setError,
+      setFocus,
+      watch,
       formState: { errors, dirtyFields, isSubmitting },
    } = useForm<FormValues>(USE_FORM_CONFIG)
    const { register: registerUser, error } = useUser()
 
+   const watchPassword = watch("password")
+
    useEffect(() => {
       error && setError("email", { message: error })
+      setFocus("email")
    }, [error, setError])
 
    const onSubmit: SubmitHandler<FormValues> = async values => {
-      const success = await registerUser(values)
-      if (success) openLogin()
+      if (values.password === values.repPassword) {
+         const success = await registerUser(values)
+         if (success) openLogin()
+      } else {
+      }
    }
 
    return (
@@ -80,7 +96,6 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ openLogin }) => {
          <h2>Sign Up</h2>
          <div className="login-wrapper register">
             <Input
-               defaultValue=""
                icon="person"
                placeholder="Name"
                type="text"
@@ -89,7 +104,6 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ openLogin }) => {
             />
             {errors.name && <p className="error">{errors.name.message}</p>}
             <Input
-               defaultValue=""
                icon="alternate_email"
                placeholder="Email"
                type="email"
@@ -97,7 +111,6 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ openLogin }) => {
             />
             {errors.email && <p className="error">{errors.email.message}</p>}
             <Input
-               defaultValue=""
                icon="vpn_key"
                placeholder="Password"
                type="password"
@@ -107,11 +120,14 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ openLogin }) => {
                <p className="error">{errors.password.message}</p>
             )}
             <Input
-               defaultValue=""
                icon="vpn_key"
                placeholder="Repeat Password"
                type="password"
-               {...register("repPassword", validationMap.repPassword)}
+               {...register("repPassword", {
+                  ...validationMap.repPassword,
+                  validate: val =>
+                     val === watchPassword || "Passwords doesn't match",
+               })}
             />
             {errors.repPassword && (
                <p className="error">{errors.repPassword.message}</p>
