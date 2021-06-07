@@ -1,4 +1,4 @@
-import { MouseEvent, useCallback, useState } from "react"
+import { MouseEvent, useCallback, useEffect, useState } from "react"
 import { Title } from "../../atoms"
 import { OptionsBar, SearchBar, VideoCard } from "../../molecules"
 import { MainFrame } from "../../templates"
@@ -15,7 +15,13 @@ type MainPageProps = {
 const MainPage: React.FC<MainPageProps> = ({ openAccount, openList }) => {
    const [searchItems, setSearchItems] = useState<YouTubeVideo[]>([])
    const [searchError, setSearchError] = useState("")
-   const { logout } = useUser()
+   const { logout, user } = useUser()
+
+   useEffect(() => {
+      if (user) {
+         setSearchError("")
+      }
+   }, [user])
 
    const handleSearchError = useCallback(
       async (err: string) => {

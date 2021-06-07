@@ -12,13 +12,9 @@ type FavModalProps = {
 }
 
 const FavModal: React.FC<FavModalProps> = ({ open, onClose }) => {
-   const { user, getUser, loading, error } = useUser()
+   const { user, loading, error } = useUser()
    const { downloadVideo, downloadLoading, downloadError } = useYoutube()
    const { delFav } = useFavs()
-
-   useEffect(() => {
-      getUser()
-   }, [getUser])
 
    const handleDownload = async () => {
       const success = await downloadVideo("all", "YtDl Favorites")

@@ -128,7 +128,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ openLogin }) => {
                {...register("repPassword", {
                   ...validationMap.repPassword,
                   validate: val =>
-                     val === watchPassword || "Passwords doesn't match",
+                     val === watchPassword || "Passwords don't match",
                })}
             />
             {errors.repPassword && (
