@@ -12,10 +12,14 @@ function useUser() {
    }
 
    const login = useCallback(
-      async (data: {}) => {
+      async (data: {}, method?: "facebook" | "google") => {
          try {
             setState({ loading: true, error: "" })
-            const response: User = await apiRequest("post", "/login", data)
+            const response: User = await apiRequest(
+               "post",
+               `/login${method ? "/" + method : ""}`,
+               data
+            )
             setUser!(response)
             localStorage.setItem("user", JSON.stringify(response))
             setState(prev => ({ loading: false, error: prev.error }))
@@ -23,7 +27,10 @@ function useUser() {
          } catch (err) {
             setState({
                loading: false,
-               error: err.message || "Wrong user or password",
+               error:
+                  err.message || method
+                     ? "Please provide access to your email from your account"
+                     : "Wrong user or password",
             })
             return false
          }

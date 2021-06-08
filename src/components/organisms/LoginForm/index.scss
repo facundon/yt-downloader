@@ -27,7 +27,7 @@
    & > div {
       margin: 0.4em 0;
    }
-   & span:not(.material-icons-round) {
+   & span:is(.switch) {
       align-self: flex-start;
       position: relative;
       padding-top: 2em;
@@ -65,5 +65,9 @@
             transform: scale(1.15);
          }
       }
+   }
+   .facebook-login-wrapper {
+      display: flex;
+      align-items: center;
    }
 }

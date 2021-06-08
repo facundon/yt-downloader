@@ -15,7 +15,11 @@ type MainPageProps = {
 const MainPage: React.FC<MainPageProps> = ({ openAccount, openList }) => {
    const [searchItems, setSearchItems] = useState<YouTubeVideo[]>([])
    const [searchError, setSearchError] = useState("")
-   const { logout, user } = useUser()
+   const { logout, user, getUser } = useUser()
+
+   useEffect(() => {
+      getUser()
+   }, [getUser])
 
    useEffect(() => {
       if (user) {

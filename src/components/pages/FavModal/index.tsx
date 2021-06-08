@@ -1,4 +1,3 @@
-import { useEffect } from "react"
 import { useFavs, useUser, useYoutube } from "../../../hooks"
 import { Button, Loader } from "../../atoms"
 import { Modal } from "../../molecules"
