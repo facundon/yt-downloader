@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import {
    RegisterOptions,
    SubmitHandler,
@@ -7,9 +7,7 @@ import {
 } from "react-hook-form"
 
 import { useUser } from "../../../hooks"
-import { Input, Button } from "../../atoms"
-import Google from "../../../icons/google.svg"
-import Facebook from "../../../icons/facebook.svg"
+import { Input, Button, Loader } from "../../atoms"
 
 import "./index.scss"
 
@@ -19,6 +17,7 @@ export const EMAIL_REGEX =
 type LoginFormProps = {
    openSignUp: () => void
    close: () => void
+   open: boolean
 }
 type FormValues = {
    email: string
@@ -54,7 +53,7 @@ const USE_FORM_CONFIG: UseFormProps<FormValues> = {
    defaultValues,
 }
 
-const LoginForm: React.FC<LoginFormProps> = ({ openSignUp, close }) => {
+const LoginForm: React.FC<LoginFormProps> = ({ openSignUp, close, open }) => {
    const {
       register,
       handleSubmit,
@@ -62,10 +61,39 @@ const LoginForm: React.FC<LoginFormProps> = ({ openSignUp, close }) => {
       setFocus,
       formState: { errors, dirtyFields, isSubmitting },
    } = useForm<FormValues>(USE_FORM_CONFIG)
-   const { login, error } = useUser()
+   const { user, login, error } = useUser()
+   const [renderingButton, setRenderingButton] = useState(true)
 
    useEffect(() => {
-      if (error) {
+      let mounted = true
+      FB.Event.subscribe("auth.login", async res => {
+         if (res.status === "connected" && !user && mounted) {
+            const success = await login(
+               { access_token: res.authResponse.accessToken },
+               "facebook"
+            )
+            if (success) close()
+         }
+      })
+      return () => {
+         FB.Event.unsubscribe("auth.login", () => {})
+         mounted = false
+      }
+   }, [login, close, user])
+
+   useEffect(() => {
+      if (open) {
+         setTimeout(() => {
+            FB.XFBML.parse(
+               document.getElementsByClassName("login-wrapper")[0],
+               () => setRenderingButton(false)
+            )
+         }, 0)
+      }
+   }, [open])
+
+   useEffect(() => {
+      if (error && error.includes("password")) {
          setError("password", { message: error })
          setFocus("password")
       }
@@ -114,17 +142,25 @@ const LoginForm: React.FC<LoginFormProps> = ({ openSignUp, close }) => {
                   Login
                </Button>
                <p>Or log in using</p>
-               <div className="social-media">
-                  <a href={`${process.env.REACT_APP_BACKEND_API}/login/google`}>
-                     <img src={Google} alt="Sign in with google" />
-                  </a>
-                  <a
-                     href={`${process.env.REACT_APP_BACKEND_API}/login/facebook`}
-                  >
-                     <img src={Facebook} alt="Sign in with facebook" />
-                  </a>
+               <div className="facebook-login-wrapper">
+                  {renderingButton && <Loader height="50px" />}
+                  <div
+                     className="fb-login-button"
+                     data-width="352"
+                     data-size="large"
+                     data-button-type="continue_with"
+                     data-layout="default"
+                     data-auto-logout-link="false"
+                     data-use-continue-as="true"
+                     data-scope="email"
+                  ></div>
                </div>
-               <span>
+               {error.includes("email") && (
+                  <p style={{ alignSelf: "center" }} className="error">
+                     {error}
+                  </p>
+               )}
+               <span className="switch">
                   Dont have an account?{" "}
                   <Button appareance="link" onClick={openSignUp} type="button">
                      Sign Up!

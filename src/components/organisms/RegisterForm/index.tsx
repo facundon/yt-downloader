@@ -146,7 +146,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ openLogin }) => {
             >
                Sign Up!
             </Button>
-            <span>
+            <span className="switch">
                Already have an account?{" "}
                <Button appareance="link" onClick={openLogin}>
                   Log In!

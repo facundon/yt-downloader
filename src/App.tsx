@@ -2,10 +2,21 @@ import { useCallback, useEffect, useState } from "react"
 import { AccountModal, MainPage } from "./components"
 import { FavModal } from "./components/pages"
 import LoginContext from "./context/LoginContext"
+import { fbAppId } from "./config"
 
 function App() {
    const [accountOpen, setAccountOpen] = useState(false)
    const [favListOpen, setFavListOpen] = useState(false)
+
+   window.fbAsyncInit = () => {
+      FB.init({
+         appId: fbAppId,
+         status: true,
+         xfbml: false,
+         cookie: true,
+         version: "v11.0",
+      })
+   }
 
    useEffect(() => {
       setTimeout(() => {
