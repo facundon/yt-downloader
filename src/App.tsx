@@ -13,7 +13,7 @@ function App() {
          status: true,
          xfbml: false,
          cookie: true,
-         version: "v10.0",
+         version: "v11.0",
       })
    }
 

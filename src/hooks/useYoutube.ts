@@ -53,5 +53,12 @@ export default function useYoutube() {
       [setDownloadState]
    )
 
-   return { searchVideos, downloadVideo, ...searchState, ...downloadState }
+   return {
+      searchVideos,
+      downloadVideo,
+      ...searchState,
+      ...downloadState,
+      setSearchState,
+      setDownloadState,
+   }
 }
