@@ -1,3 +1,4 @@
+import { useEffect } from "react"
 import { useFavs, useUser, useYoutube } from "../../../hooks"
 import { Button, Loader } from "../../atoms"
 import { Modal } from "../../molecules"
@@ -12,8 +13,18 @@ type FavModalProps = {
 
 const FavModal: React.FC<FavModalProps> = ({ open, onClose }) => {
    const { user, loading, error } = useUser()
-   const { downloadVideo, downloadLoading, downloadError } = useYoutube()
+   const { downloadVideo, downloadLoading, downloadError, setDownloadState } =
+      useYoutube()
    const { delFav } = useFavs()
+
+   useEffect(() => {
+      if (!open) {
+         setDownloadState(prev => ({
+            downloadLoading: prev.downloadLoading,
+            downloadError: "",
+         }))
+      }
+   }, [open, setDownloadState])
 
    const handleDownload = async () => {
       const success = await downloadVideo("all", "YtDl Favorites")
