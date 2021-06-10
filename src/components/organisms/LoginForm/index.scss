@@ -68,6 +68,11 @@
    }
    .facebook-login-wrapper {
       display: flex;
+      justify-content: center;
       align-items: center;
+      width: 100%;
+      .fb-login-button.fb_iframe_widget {
+         width: inherit;
+      }
    }
 }

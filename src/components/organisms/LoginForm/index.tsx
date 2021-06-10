@@ -146,7 +146,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ openSignUp, close, open }) => {
                   {renderingButton && <Loader height="50px" />}
                   <div
                      className="fb-login-button"
-                     data-width="343px"
+                     data-width="100%"
                      data-size="large"
                      data-button-type="continue_with"
                      data-layout="default"
