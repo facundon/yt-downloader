@@ -9,3 +9,8 @@ export type User = {
    email: string
    videos: Video[]
 }
+
+export type WebSocketMessage = {
+   status: "recieved" | "ready" | "error"
+   value: string
+}
