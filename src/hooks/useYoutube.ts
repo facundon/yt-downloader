@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react"
 import { useFavs } from "."
-import { wsBackendUrl } from "../config"
+import { wsBackendUrl, wsTimeout } from "../config"
 import { _searchVideos, _triggerDownload } from "../services"
 import { WebSocketMessage } from "../types/server"
 
@@ -39,6 +39,7 @@ export default function useYoutube() {
    const downloadVideo = useCallback(
       (id: string, name: string) => {
          try {
+            let didRespond = false
             setDownloadState({ downloadLoading: true, downloadError: "" })
             const socket = new WebSocket(`${wsBackendUrl}/api/converter`)
             socket.addEventListener("open", () => {
@@ -57,15 +58,36 @@ export default function useYoutube() {
                      socket.close(1000, "donwload done")
                      break
 
+                  case "recieved":
+                     didRespond = true
+                     break
+
                   case "error":
+                     didRespond = true
                      setDownloadState({
                         downloadLoading: false,
-                        downloadError: response.value as string,
+                        downloadError: response.value,
                      })
                      socket.close()
                      break
                }
             })
+            socket.addEventListener("error", () => {
+               setDownloadState({
+                  downloadLoading: false,
+                  downloadError: "Error while downloading video",
+               })
+               socket.close()
+            })
+            setTimeout(() => {
+               if (!didRespond && socket.OPEN) {
+                  setDownloadState({
+                     downloadLoading: false,
+                     downloadError: "The server did not respond",
+                  })
+                  socket.close()
+               }
+            }, wsTimeout)
          } catch (err) {
             setDownloadState({
                downloadLoading: false,
